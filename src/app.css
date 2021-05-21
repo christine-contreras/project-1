@@ -1,0 +1,43 @@
+/* utility */
+.text-center{
+    text-align: center;
+}
+
+.block{
+    display: block;
+}
+/* navigation */
+.pure-menu{
+    background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+}
+
+.menu-container{
+    max-width: 1200px;
+    margin: auto;
+    padding: 2em;
+}
+
+.pure-menu-list{
+    float: right;
+}
+
+
+/* hero */
+.hero{
+    background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+    min-height: 80vh;
+    padding: 1em;
+}
+
+
+.pure-form{
+    width: 60vw;
+}
+
+.pure-form .pure-button{
+    min-width: 200px;
+}

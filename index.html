@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="./node_modules/purecss/build/pure.css">
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css" />
+
+        <link rel="stylesheet" href="./src/app.css">
+        
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <nav>
+            <div class="pure-menu pure-menu-horizontal pure-menu-fixed">
+               <div class="menu-container">
+                <a class="pure-menu-heading" href="">Perfect Date</a>
+        
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Home</a></li>
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Saved Dates</a></li>
+                </ul>
+               </div>
+            </div>
+        </nav>
+        <main>
+            <div class="hero">
+                <h1>Find Your Perfect Date</h1>
+                <p class="text-center">Find the perfect dates for your event. Compare year-over-year date to find the perfect weather for your big day.</p>
+
+                <form class="pure-form pure-form-stacked" id="form">
+                    <fieldset>
+                        <div class="pure-g">
+                            <div class="pure-u-1 pure-u-md-1-3">
+                                <label for="input-location">Location</label>
+                                <input class="pure-u-23-24" id="input-location" type="text" placeholder="City, State" required=""/>
+                            </div>
+                            <div class="pure-u-1 pure-u-md-1-3">
+                                <label for="input-month">Month</label>
+                                <select class="pure-u-23-24" id="input-month">
+                                    <option data-month="01">January</option>
+                                    <option data-month="02">February</option>
+                                    <option data-month="03">March</option>
+                                    <option data-month="04">April</option>
+                                    <option data-month="05">May</option>
+                                    <option data-month="06">June</option>
+                                    <option data-month="07">July</option>
+                                    <option data-month="08">August</option>
+                                    <option data-month="09">September</option>
+                                    <option data-month="10">October</option>
+                                    <option data-month="11">November</option>
+                                    <option data-month="12">December</option>
+                                </select>
+                            </div>
+                            <div class="pure-u-1 pure-u-md-1-3">
+                                <label for="input-timeframe">Timeframe</label>
+                                <select class="pure-u-23-24" id="input-timeframe">
+                                    <option>Last Year</option>
+                                    <option>Past 2 Years</option>
+                                    <option>Past 3 Years</option>
+                                    <option>Past 4 Years</option>
+                                    <option>Past 5 Years</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="pure-button pure-button-primary block" id="input-submit">Check Weather</button>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="results" id="calendar-results">
+                <ul id="year1"></ul>
+                <ul id="year2"></ul>
+                <ul id="year3"></ul>
+                <ul id="year4"></ul>
+                <ul id="year5"></ul>
+
+            </div>
+        </main>
+        
+        <script src="./src/app.js" async defer></script>
+    </body>
+</html>
