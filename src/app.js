@@ -13,7 +13,7 @@ let year5;
 console.log(`current date: ${currentMonth} ${currentYear}`)
 
 
-// function fetchSubmit(location, month , year, endDate) {
+// function fetchSubmit(location, month , year, endDate, startDay) {
 //     fetch(`http://api.weatherstack.com/historical?access_key=${apiKey}&query=${location}&historical_date_start=${year}-${month}-01&historical_date_end=${year}-${month}-${endDate}&hourly=1&interval=24&units=f`)
 //     .then(response => response.json())
 //     .then(object => {
@@ -31,7 +31,7 @@ console.log(`current date: ${currentMonth} ${currentYear}`)
 // }
 
 //use for coding look so I won't use API data
-function fetchSubmit(location, month , year, endDate) {
+function fetchSubmit(location, month , year, endDate, startDay) {
     let object; 
 
     switch(year) {
@@ -8790,11 +8790,16 @@ function fetchSubmit(location, month , year, endDate) {
     console.log(object)
     const datesObject = object.historical;
 
-    let currentUl = document.getElementById(`${year}`);
+    const currentUl = document.getElementById(`yr-${year}`);
+
     for(const date in datesObject) {
         const data = datesObject[date];
         createLi(data, currentUl);     
     }
+
+    //start calendar on the right day of week
+    const firstLi = document.querySelector(`#yr-${year} li:first-child`);
+    firstLi.style.gridColumn = startDay;
 
 }
 
@@ -8857,6 +8862,7 @@ form.addEventListener('submit', (event) => {
 
     let numDays = daysInMonth(monthInput, year1)
     let firstDayOfWeek = dayOfWeek(monthInput, year1)
+    console.log(firstDayOfWeek)
 
     //console.log('number of days in month: ' + numDays)
     //console.log('the month starts on: ' + firstDayOfWeek)
@@ -8894,27 +8900,27 @@ form.addEventListener('submit', (event) => {
             // ulYear5 = document.createElement('ul')
             // ulYear5.setAttribute('id', `${year5}`);
             // resultsContainer.appendChild(ulYear5);
-            fetchSubmit(locationInput, monthInput, year5, numDays);
+            fetchSubmit(locationInput, monthInput, year5, numDays, firstDayOfWeek);
         case 3:
             // ulYear4 = document.createElement('ul')
             // ulYear4.setAttribute('id', `${year4}`);
             // resultsContainer.appendChild(ulYear4);
-            fetchSubmit(locationInput, monthInput, year4, numDays);
+            fetchSubmit(locationInput, monthInput, year4, numDays, firstDayOfWeek);
         case 2:
             // ulYear3 = document.createElement('ul')
             // ulYear3.setAttribute('id', `${year3}`);
             // resultsContainer.appendChild(ulYear3);
-            fetchSubmit(locationInput, monthInput, year3, numDays);
+            fetchSubmit(locationInput, monthInput, year3, numDays, firstDayOfWeek);
         case 1:
             // ulYear2 = document.createElement('ul')
             // ulYear2.setAttribute('id', `${year2}`);
             // resultsContainer.appendChild(ulYear2);
-            fetchSubmit(locationInput, monthInput, year2, numDays);
+            fetchSubmit(locationInput, monthInput, year2, numDays, firstDayOfWeek);
         case 0:
             // ulYear1 = document.createElement('ul')
             // ulYear1.setAttribute('id', `${year1}`);
             // resultsContainer.appendChild(ulYear1);
-            fetchSubmit(locationInput, monthInput, year1, numDays);
+            fetchSubmit(locationInput, monthInput, year1, numDays, firstDayOfWeek);
 
     }
 
@@ -8929,19 +8935,19 @@ function daysInMonth (month, year) {
 
 //find first day of week
 function dayOfWeek (month, year) {
-    const weekday = new Array();
-    weekday[0] = "Sunday";
-    weekday[1] = "Monday";
-    weekday[2] = "Tuesday";
-    weekday[3] = "Wednesday";
-    weekday[4] = "Thursday";
-    weekday[5] = "Friday";
-    weekday[6] = "Saturday";
+    // const weekday = new Array();
+    // weekday[0] = "Sunday";
+    // weekday[1] = "Monday";
+    // weekday[2] = "Tuesday";
+    // weekday[3] = "Wednesday";
+    // weekday[4] = "Thursday";
+    // weekday[5] = "Friday";
+    // weekday[6] = "Saturday";
 
     let firstDate = new Date(year, month, 1).getDay();
-    let firstDayOfWeek = weekday[firstDate];
+    // let firstDayOfWeek = weekday[firstDate];
 
-    return firstDayOfWeek;
+    return firstDate + 1;
 }
 
 
