@@ -41,3 +41,8 @@
 .pure-form .pure-button{
     min-width: 200px;
 }
+
+.days-of-week, .date-grid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}

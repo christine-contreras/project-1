@@ -8787,11 +8787,6 @@ function fetchSubmit(location, month , year, endDate) {
 
     }
 
-    if(year === 2017) {
-
-    } else if(year === 2018) {
-        object
-    }
     console.log(object)
     const datesObject = object.historical;
 
@@ -8896,29 +8891,29 @@ form.addEventListener('submit', (event) => {
     //console.log(timeframeInput)
     switch(timeframeInput) {
         case 4:
-            ulYear5 = document.createElement('ul')
-            ulYear5.setAttribute('id', `${year5}`);
-            resultsContainer.appendChild(ulYear5);
-            //fetchSubmit(locationInput, monthInput, year5, numDays);
+            // ulYear5 = document.createElement('ul')
+            // ulYear5.setAttribute('id', `${year5}`);
+            // resultsContainer.appendChild(ulYear5);
+            fetchSubmit(locationInput, monthInput, year5, numDays);
         case 3:
-            ulYear4 = document.createElement('ul')
-            ulYear4.setAttribute('id', `${year4}`);
-            resultsContainer.appendChild(ulYear4);
-            //fetchSubmit(locationInput, monthInput, year4, numDays);
+            // ulYear4 = document.createElement('ul')
+            // ulYear4.setAttribute('id', `${year4}`);
+            // resultsContainer.appendChild(ulYear4);
+            fetchSubmit(locationInput, monthInput, year4, numDays);
         case 2:
-            ulYear3 = document.createElement('ul')
-            ulYear3.setAttribute('id', `${year3}`);
-            resultsContainer.appendChild(ulYear3);
-            //fetchSubmit(locationInput, monthInput, year3, numDays);
+            // ulYear3 = document.createElement('ul')
+            // ulYear3.setAttribute('id', `${year3}`);
+            // resultsContainer.appendChild(ulYear3);
+            fetchSubmit(locationInput, monthInput, year3, numDays);
         case 1:
-            ulYear2 = document.createElement('ul')
-            ulYear2.setAttribute('id', `${year2}`);
-            resultsContainer.appendChild(ulYear2);
-            //fetchSubmit(locationInput, monthInput, year2, numDays);
+            // ulYear2 = document.createElement('ul')
+            // ulYear2.setAttribute('id', `${year2}`);
+            // resultsContainer.appendChild(ulYear2);
+            fetchSubmit(locationInput, monthInput, year2, numDays);
         case 0:
-            ulYear1 = document.createElement('ul')
-            ulYear1.setAttribute('id', `${year1}`);
-            resultsContainer.appendChild(ulYear1);
+            // ulYear1 = document.createElement('ul')
+            // ulYear1.setAttribute('id', `${year1}`);
+            // resultsContainer.appendChild(ulYear1);
             fetchSubmit(locationInput, monthInput, year1, numDays);
 
     }
