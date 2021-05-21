@@ -27,33 +27,56 @@ form.addEventListener('submit', (event) => {
     let monthInput = (document.getElementById('input-month').selectedIndex)
     let timeframeInput = document.getElementById('input-timeframe').selectedIndex
 
-    //check which year to start search on
+    //check which year to start search on then the next few years
     if(currentMonth > monthInput) {
         year1 = currentYear;
     } else {
         year1 = currentYear - 1;
     }
+    //console.log(`year to start search on: ${year1}`);
+    year2 = year1 - 1;
+    year3 = year2 - 1;
+    year4 = year3 - 1;
+    year5 = year4 - 1;
 
-    console.log(`year to start search on: ${year1}`);
 
     let numDays = daysInMonth(monthInput, year1)
     let firstDayOfWeek = dayOfWeek(monthInput, year1)
 
-    console.log('number of days in month: ' + numDays)
-    console.log('the month starts on: ' + firstDayOfWeek)
+    //console.log('number of days in month: ' + numDays)
+    //.log('the month starts on: ' + firstDayOfWeek)
 
     //changing month into correct format for URL
     if (monthInput < 10) {
     monthInput = `0${monthInput + 1}`
     } 
-    console.log(`month to pass into URL: ${monthInput}`)
+    //console.log(`month to pass into URL: ${monthInput}`)
 
     //fetchSubmit(locationInput, monthInput, year1, numDays)
-
-    //console.log(timeframeInput)
     
 
-    // debugger;
+    console.log(timeframeInput)
+    
+    switch(timeframeInput) {
+        case 4:
+            //console.log('run fetch five times ' + year5);
+            fetchSubmit(locationInput, monthInput, year5, '02');
+        case 3:
+            //console.log('run fetch four times ' + year4);
+            fetchSubmit(locationInput, monthInput, year4, '02');
+        case 2:
+            //console.log('run fetch three times ' + year3);
+            fetchSubmit(locationInput, monthInput, year4, '02');
+        case 1:
+            //console.log('run fetch twice ' + year2);
+            fetchSubmit(locationInput, monthInput, year4, '02');
+        case 0:
+            //console.log('run fetch once ' + year1);
+            fetchSubmit(locationInput, monthInput, year1, '02');
+
+    }
+    
+
 })
 
 //find days in the month
