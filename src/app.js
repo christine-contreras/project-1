@@ -10,10 +10,10 @@ let year3;
 let year4;
 let year5;
 
-console.log(`current date: ${currentMonth} ${currentYear}`)
+console.log(`current date: ${currentMonth} ${currentYear}`);
 
 
-// function fetchSubmit(location, month , year, endDate, startDay) {
+// function fetchSubmit(location, month, monthNum, year, endDate, startDay) {
 //     fetch(`http://api.weatherstack.com/historical?access_key=${apiKey}&query=${location}&historical_date_start=${year}-${month}-01&historical_date_end=${year}-${month}-${endDate}&hourly=1&interval=24&units=f`)
 //     .then(response => response.json())
 //     .then(object => {
@@ -31,7 +31,7 @@ console.log(`current date: ${currentMonth} ${currentYear}`)
 // }
 
 //use for coding look so I won't use API data
-function fetchSubmit(location, month , year, endDate, startDay) {
+function fetchSubmit(location, month, monthNum, year, endDate, startDay) {
     let object; 
 
     switch(year) {
@@ -8786,12 +8786,11 @@ function fetchSubmit(location, month , year, endDate, startDay) {
             }
 
     }
+    console.log(object);
 
-    console.log(object)
+    let currentUl = createCalendar(month, year);
+
     const datesObject = object.historical;
-
-    const currentUl = document.getElementById(`yr-${year}`);
-
     for(const date in datesObject) {
         const data = datesObject[date];
         createLi(data, currentUl);     
@@ -8800,6 +8799,37 @@ function fetchSubmit(location, month , year, endDate, startDay) {
     //start calendar on the right day of week
     const firstLi = document.querySelector(`#yr-${year} li:first-child`);
     firstLi.style.gridColumn = startDay;
+
+}
+
+function createCalendar(month, year){
+    const newCalendar = document.createElement('div');
+    newCalendar.setAttribute('id', `yr-${year}`);
+    newCalendar.setAttribute('class', 'calendar');
+
+    const calendarTitle = document.createElement('div');
+    calendarTitle.setAttribute('class', 'calendar-title');
+    calendarTitle.innerText = `${month} ${year}`;
+
+    const calendarDays = document.createElement('div');
+    calendarDays.setAttribute('class', 'days-of-week');
+    const daysArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+
+    daysArray.forEach(day => {
+        const dayContainer = document.createElement('div');
+        dayContainer.innerText = day;
+        calendarDays.appendChild(dayContainer);
+    });
+
+    const UlDates = document.createElement('ul');
+    UlDates.setAttribute('class', 'date-grid');
+
+    newCalendar.append(calendarTitle, calendarDays, UlDates)
+    resultsContainer.appendChild(newCalendar)
+
+
+    return UlDates;
+
 
 }
 
@@ -8821,19 +8851,19 @@ function createLi(date, ul) {
 
     const rain = document.createElement('p');
     const rainInches = (date.hourly[0].precip * 0.0393701).toFixed(2);
-    rain.innerHTML = `Precip: ${rainInches} in.`
+    rain.innerHTML = `Precip: ${rainInches} in.`;
 
-    const humidity = document.createElement('p');
-    humidity.innerHTML = `Humidity: ${date.hourly[0].humidity}&#37;`
+    const humidity = document.createElement('p');;
+    humidity.innerHTML = `Humidity: ${date.hourly[0].humidity}&#37;`;
 
     const wind = document.createElement('p');
     const windMph = (date.hourly[0].wind_speed * 0.621371).toFixed(2);
-    wind.innerHTML = `Wind: ${windMph} mph`
+    wind.innerHTML = `Wind: ${windMph} mph`;
 
     const sun = document.createElement('p');
-    sun.innerHTML = `Sun: ${date.sunhour} hrs.`
+    sun.innerHTML = `Sun: ${date.sunhour} hrs.`;
 
-    li.append(datePTag, icon, description, tempPTag, rain, humidity, wind, sun)
+    li.append(datePTag, icon, description, tempPTag, rain, humidity, wind, sun);
 
     ul.appendChild(li);
 
@@ -8843,12 +8873,13 @@ function createLi(date, ul) {
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const locationInput = document.getElementById('input-location').value
-    let monthInput = (document.getElementById('input-month').selectedIndex)
-    let timeframeInput = document.getElementById('input-timeframe').selectedIndex
+    const locationInput = document.getElementById('input-location').value;
+    const month = document.getElementById('input-month').value;
+    let monthIndex = (document.getElementById('input-month').selectedIndex);
+    const timeframeIndex = document.getElementById('input-timeframe').selectedIndex;
 
     //check which year to start search on then the next few years
-    if(currentMonth > monthInput) {
+    if(currentMonth > monthIndex) {
         year1 = currentYear;
     } else {
         year1 = currentYear - 1;
@@ -8860,18 +8891,18 @@ form.addEventListener('submit', (event) => {
     year5 = year1 - 4;
 
 
-    let numDays = daysInMonth(monthInput, year1)
-    let firstDayOfWeek = dayOfWeek(monthInput, year1)
-    console.log(firstDayOfWeek)
+    let numDays = daysInMonth(monthIndex, year1);
+    let firstDayOfWeek = dayOfWeek(monthIndex, year1);
+    //console.log(firstDayOfWeek)
 
     //console.log('number of days in month: ' + numDays)
     //console.log('the month starts on: ' + firstDayOfWeek)
 
     //changing month into correct format for URL
-    if (monthInput < 10) {
-    monthInput = `0${monthInput + 1}`
+    if (monthIndex < 10) {
+        monthIndex = `0${monthIndex + 1}`;
     } 
-    //console.log(`month to pass into URL: ${monthInput}`)
+    //console.log(`month to pass into URL: ${monthIndex}`)
 
 
     const calendarTitle = document.createElement('h2');
@@ -8879,13 +8910,13 @@ form.addEventListener('submit', (event) => {
     const calendarYears = document.createElement('h3');
 
     //calendar years
-    if(timeframeInput === 4) {
+    if(timeframeIndex === 4) {
         calendarYears.innerHTML = `${year1} - ${year5}`;
-    } else if (timeframeInput === 3) {
+    } else if (timeframeIndex === 3) {
         calendarYears.innerHTML = `${year1} - ${year4}`;
-    } else if (timeframeInput === 2) {
+    } else if (timeframeIndex === 2) {
         calendarYears.innerHTML = `${year1} - ${year3}`;
-    } else if (timeframeInput === 1) {
+    } else if (timeframeIndex === 1) {
         calendarYears.innerHTML = `${year1} - ${year2}`;
     } else {
         calendarYears.innerHTML = `${year1}`;
@@ -8894,33 +8925,30 @@ form.addEventListener('submit', (event) => {
     resultsContainer.append(calendarTitle,calendarYears)
 
 
-    //console.log(timeframeInput)
-    switch(timeframeInput) {
+    //console.log(timeframeIndex)
+    switch(timeframeIndex) {
         case 4:
-            // ulYear5 = document.createElement('ul')
-            // ulYear5.setAttribute('id', `${year5}`);
-            // resultsContainer.appendChild(ulYear5);
-            fetchSubmit(locationInput, monthInput, year5, numDays, firstDayOfWeek);
+            fetchSubmit(locationInput, month, monthIndex, year5, numDays, firstDayOfWeek);
         case 3:
             // ulYear4 = document.createElement('ul')
             // ulYear4.setAttribute('id', `${year4}`);
             // resultsContainer.appendChild(ulYear4);
-            fetchSubmit(locationInput, monthInput, year4, numDays, firstDayOfWeek);
+            fetchSubmit(locationInput, month, monthIndex, year4, numDays, firstDayOfWeek);
         case 2:
             // ulYear3 = document.createElement('ul')
             // ulYear3.setAttribute('id', `${year3}`);
             // resultsContainer.appendChild(ulYear3);
-            fetchSubmit(locationInput, monthInput, year3, numDays, firstDayOfWeek);
+            fetchSubmit(locationInput, month, monthIndex, year3, numDays, firstDayOfWeek);
         case 1:
             // ulYear2 = document.createElement('ul')
             // ulYear2.setAttribute('id', `${year2}`);
             // resultsContainer.appendChild(ulYear2);
-            fetchSubmit(locationInput, monthInput, year2, numDays, firstDayOfWeek);
+            fetchSubmit(locationInput, month, monthIndex, year2, numDays, firstDayOfWeek);
         case 0:
             // ulYear1 = document.createElement('ul')
             // ulYear1.setAttribute('id', `${year1}`);
             // resultsContainer.appendChild(ulYear1);
-            fetchSubmit(locationInput, monthInput, year1, numDays, firstDayOfWeek);
+            fetchSubmit(locationInput, month, monthIndex, year1, numDays, firstDayOfWeek);
 
     }
 
