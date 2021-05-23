@@ -1,4 +1,37 @@
 /* utility */
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;500;600&display=swap');
+
+body, .pure-g [class *= "pure-u"] {
+    font-family: "Poppins", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.42857;
+    color: #838383;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  /* font-family:  "Abril Fatface", "Times New Roman", Times, serif; */
+  font-family:  "Playfair Display", "Times New Roman", Times, serif;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin: 0;
+  color: #3d4c5a;
+ }
+
+
+h1, .h1 {
+    font-size: 3em; }
+  
+  h2, .h2 {
+    font-size: 2.5em; }
+  
+  h3, .h3 {
+    font-size: 2em; }
+  
+  h4, .h4 {
+    font-size: 1.5em; }
+
 .text-center{
     text-align: center;
 }
@@ -42,7 +75,124 @@
     min-width: 200px;
 }
 
+.pure-button-primary, .pure-button-selected, a.pure-button-primary, a.pure-button-selected{
+    background-color: #3d4c5a;
+}
+
 .days-of-week, .date-grid{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
 }
+
+
+/* calendar */
+.results{
+    padding: 2em;
+}
+
+.calendar{
+    margin-top: 2em;
+    box-shadow: 0 5px 20px rgb(0 0 0 / 30%);
+    border-radius: 10px;
+}
+
+.calendar-title{
+    padding: .5em;
+    background-color: #3d4c5a;
+    color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.calendar-years{
+    font-family:  "Abril Fatface", "Times New Roman", Times, serif; 
+}
+
+.days-of-week{
+    border-bottom: 1px solid;
+}
+
+.days-of-week div{
+    padding: .5em;
+    font-weight: bold;
+}
+
+.date-grid{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.date-grid .item{
+    padding-top: 1em;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    min-height: 350px;
+}
+
+.date-grid li:nth-of-type(odd){
+    background-color: #f4f4f4;
+    background-color: rgb(84 134 181 / 8%);
+}
+
+.icon{
+    border-radius: 100%;
+}
+
+.description {
+    margin: 0;
+}
+
+.temperature{
+    margin: 10px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.info{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: left;
+    justify-items: center;
+    border-top: 1px solid #ccc;
+}
+
+.info p{
+    font-size: 80%;
+    margin: 5px 0;
+}
+
+.info-group{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    display: grid;
+    align-items: center;
+}
+
+.info > div:nth-of-type(1){
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.info > div:nth-of-type(2){
+    border-bottom: 1px solid #ccc;
+}
+
+.info > div:nth-of-type(3){
+    border-right: 1px solid #ccc;
+}
+
+.info-label{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.info-data{
+    text-align: center;
+    font-weight: 500;
+}
+
+
