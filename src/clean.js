@@ -71,7 +71,9 @@ form.addEventListener('submit', (event) => {
     calendarTitle.setAttribute('class', 'h1')
     calendarTitle.innerHTML = `${locationInput}`;
     const calendarYears = document.createElement('h3');
-    calendarYears.setAttribute('class', 'calendar-years')
+    calendarYears.setAttribute('class', 'calendar-years');
+    const calendarDetails = document.createElement('p');
+    calendarDetails.innerText = 'The calendar below shows the average weather data for each day of the week. Click on each date to see the weather breakdown by year.';
 
     //calendar years
     if(timeframeIndex === 4) {
@@ -91,7 +93,7 @@ form.addEventListener('submit', (event) => {
         calendarYears.innerHTML = `${year1}`;
     }
 
-    resultsContainer.append(calendarTitle,calendarYears)
+    resultsContainer.append(calendarTitle,calendarYears, calendarDetails)
 
 
     //how many times to fetch 
@@ -354,6 +356,7 @@ function createLi(info){
     const btn = document.createElement('btn');
     btn.innerText = "See Details"
     btn.setAttribute('id', 'js-details')
+    btn.setAttribute('data-button', `${info.id}`);
     btn.classList.add('details-button', 'pure-button');
     overlay.appendChild(btn)
 
@@ -25464,20 +25467,21 @@ ulDates.addEventListener('click', (event) =>{
         const id = event.path[2].dataset.id;
         const liArrayDates = dateArrayObject[id];
 
-        createDetailsPage(liArrayDates, location, month);
+        createDetailsPage(liArrayDates, location, month, id);
         
     }
 
 });
 
 
-function createDetailsPage(array, location, month){
+function createDetailsPage(array, location, month, id){
 
-    //console.log(array);
-    //debugger;
+    console.log(array);
+    debugger;
 
     resultsContainer.style.display = 'none';
     modal.classList.add('open');
+    modal.setAttribute('id', `${id}`);
 
     const nav = document.createElement('nav');
 
@@ -25666,14 +25670,19 @@ function createModalInfo(date){
 
 }
 
-goBackLink.addEventListener('click', (event) =>{
-
-    console.log('working');
+goBackLink.addEventListener('click', () =>{
     modal.classList.remove('open');
+    modal.removeAttribute('id');
+    modalDatesContainer.innerHTML = '';
     modal.innerHTML = '';
     htmlTag.style.background = 'none';
     resultsContainer.style.display = 'block';
 
 });
+
+
+// modal.addEventListener('click', (event) =>{
+//     console.log(event.target);
+// });
 
 

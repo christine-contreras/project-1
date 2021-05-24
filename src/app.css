@@ -87,8 +87,9 @@ h1, .h1 {
     align-items: center;
     justify-content: center;
     flex-flow: column nowrap;
-    min-height: 80vh;
+    height: 80vh;
     padding: 1em;
+    max-height: 700px;
 }
 
 
