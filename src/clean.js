@@ -9,6 +9,10 @@ ulDates.setAttribute('class', 'date-grid');
 const modal = document.querySelector('.details-modal');
 const modalDatesContainer = document.createElement('div');
 modalDatesContainer.classList.add('modal-dates', 'text-center');
+const goBackLink = document.createElement('a');
+goBackLink.setAttribute('id', 'return-link');
+goBackLink.classList.add('pure-menu-link');
+const htmlTag = document.querySelector('html');
 
 const today = new Date();
 const currentMonth = today.getMonth();
@@ -24,7 +28,6 @@ function initForm() {
 
     [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 }
-
 
 
 //form submit actions
@@ -25470,7 +25473,7 @@ ulDates.addEventListener('click', (event) =>{
 
 function createDetailsPage(array, location, month){
 
-    console.log(array);
+    //console.log(array);
     //debugger;
 
     resultsContainer.style.display = 'none';
@@ -25483,8 +25486,6 @@ function createDetailsPage(array, location, month){
     const menuContainer = document.createElement('div');
     menuContainer.classList.add('menu-container');
 
-    const goBackLink = document.createElement('a');
-    goBackLink.classList.add('pure-menu-link');
     goBackLink.href = '#';
     goBackLink.innerHTML = '<i class="bi-arrow-left-circle-fill" role="img" aria-label="rain"></i> Go Back';
 
@@ -25523,8 +25524,6 @@ function createDetailsPage(array, location, month){
     modal.append(nav, modalDatesContainer);
 
     array.forEach(createModalInfo);
-
-    const htmlTag = document.querySelector('html');
 
     htmlTag.style.background = 'linear-gradient(to right, #ffecd2 0%, #fcb69f 100%)';
     
@@ -25666,4 +25665,15 @@ function createModalInfo(date){
 
 
 }
+
+goBackLink.addEventListener('click', (event) =>{
+
+    console.log('working');
+    modal.classList.remove('open');
+    modal.innerHTML = '';
+    htmlTag.style.background = 'none';
+    resultsContainer.style.display = 'block';
+
+});
+
 
