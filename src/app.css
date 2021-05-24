@@ -47,7 +47,7 @@ h1, .h1 {
 .menu-container{
     max-width: 1200px;
     margin: auto;
-    padding: 2em;
+    padding: 1em;
 }
 
 .pure-menu-list{
@@ -62,8 +62,8 @@ h1, .h1 {
 /* logo */
 .pure-menu-horizontal .pure-menu-heading.logo{
     letter-spacing: -5px;
-    min-height: 75px;
-    min-width: 75px;
+    min-height: 50px;
+    min-width: 50px;
     padding: 10px;
     display: inline-flex;
     align-items: center;
@@ -123,7 +123,7 @@ h1, .h1 {
 
 .calendar-title-container{
     position: sticky;
-    top: 115px;
+    top: 117px;
     z-index: 100;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -137,7 +137,7 @@ h1, .h1 {
     border-top-right-radius: 10px;
 }
 
-.calendar-years{
+.calendar-years, .font-3{
     font-family:  "Abril Fatface", "Times New Roman", Times, serif; 
 }
 
@@ -272,6 +272,103 @@ h1, .h1 {
 }
 
 
+/* modal */
+.details-modal{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+    z-index: 1000;
+}
 
+.details-modal.open{
+    width: 100%;
+    height: 100%;
+    transition: height 0.5s ease, width 0.5s ease;
+}
+
+.details-modal .menu-container{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    align-items: center;
+}
+
+.details-modal .menu-container .pure-button{
+    margin: 0;
+    justify-self: end;
+}
+
+
+.modal-dates{
+    position: relative;
+    top: 152px;
+    max-width: 600px;
+    margin: auto;
+    padding-bottom: 4em;
+    display: flex;
+    flex-flow: column-reverse nowrap;
+}
+
+.modal-year-container{
+    background: #fff;
+    border-radius: 10px;
+    margin-top: 4em;
+}
+
+.modal-year{
+    padding: 10px;
+    background-color: #3d4c5a;
+    color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.day, .night{
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-items: center;
+}
+
+.day{
+    padding-bottom: 1em;
+}
+
+.modal-temp{
+    font-size: 15px;
+}
+
+.modal-temp .temperature{
+    font-size: 1.25em;
+}
+
+.modal-info{
+    display: grid;
+    padding: 10px 0 10px 1em;
+}
+
+.info-title{
+    margin: 0;
+    padding-bottom: 10px;
+    font-weight: 400;
+}
+
+.modal-info .date-quickinfo{
+    display: flex;
+    align-items: center;
+}
+
+.modal-subinfo .info-group{
+    grid-template-columns: 15% 30% 50%;
+    padding: 0 0 5px 1em;
+    justify-items: flex-start;
+    font-size: 15px;
+}
+
+.modal-subinfo .info-group p{
+    margin: 0;
+    padding: 0;
+}
 
 

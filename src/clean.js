@@ -4,8 +4,11 @@ const resultsContainer = document.getElementById('calendar-results');
 const newCalendar = document.createElement('div');
 newCalendar.setAttribute('id', `js-calendar`);
 newCalendar.setAttribute('class', 'calendar');
-const UlDates = document.createElement('ul');
-UlDates.setAttribute('class', 'date-grid');
+const ulDates = document.createElement('ul');
+ulDates.setAttribute('class', 'date-grid');
+const modal = document.querySelector('.details-modal');
+const modalDatesContainer = document.createElement('div');
+modalDatesContainer.classList.add('modal-dates', 'text-center');
 
 const today = new Date();
 const currentMonth = today.getMonth();
@@ -14,19 +17,21 @@ let year1, year2, year3, year4, year5;
 //console.log(today.toDateString());
 var [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 
-function init() {
+function initForm() {
     resultsContainer.innerHTML = '';
     newCalendar.innerHTML = '';
-    UlDates.innerHTML = '';
+    ulDates.innerHTML = '';
 
     [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 }
+
+
 
 //form submit actions
 form.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    init();
+    initForm();
     
     const locationInput = document.getElementById('input-location').value;
     const monthName = document.getElementById('input-month').value;
@@ -67,6 +72,7 @@ form.addEventListener('submit', (event) => {
 
     //calendar years
     if(timeframeIndex === 4) {
+
         calendarYears.innerHTML = `${year1} - ${year5}`;
 
     } else if (timeframeIndex === 3) {
@@ -103,30 +109,45 @@ form.addEventListener('submit', (event) => {
     
 
     createCalendar(monthName);
-    newCalendar.appendChild(UlDates);
+    newCalendar.appendChild(ulDates);
+    ulDates.setAttribute('data-location', `${locationInput}`);
+    ulDates.setAttribute('data-month', `${monthName}`);
     dayAverages();
 
 });
 
 function dayAverages() {
-    const dayOfMonthArrays = [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6]
+    var dayOfMonthArrays = [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6]
 
-    
     dayOfMonthArrays.forEach(day => {
         //console.log(day);
+        let id;
 
         if (day.length === 0){
-            emptyLi();
+            id = dayOfMonthArrays.indexOf(day);
+            emptyLi(id);
         } else {
             let newObject = {};
-            createDateObjects(day, newObject);
-
+            id = dayOfMonthArrays.indexOf(day);
+            createDateObjects(day, newObject, id);
         }
+
+        //save new arrays with objects into new array
+        return dateArrayObject.push(day);
     });
+
+    
+
+
 
 }
 
-function createDateObjects(array, object) {
+const dateArrayObject = [];
+
+function createDateObjects(array, object, id) {
+    //add id as key: value
+    object.id = id;
+
     //calculate mintemp avg & add to object
     const minTempAvg = Math.ceil(averages(array, 'mintemp'))
     object.mintemp = minTempAvg;
@@ -211,9 +232,80 @@ function createDateObjects(array, object) {
     createLi(object);
 }
 
+// function mostCommon(array, value1) {
+//     let flattenedArray;
+
+//     if(array.length > 1) {
+//         const firstArray = array.map(item => {
+//            return item.hourly.map(description => description[value1][0]);
+//         });
+
+//         flattenedArray = firstArray.reduce((flat, toFlatten) => flat.concat(toFlatten), []);
+
+//     } else {
+//         let descriptions = array.map(item => {
+//             return item.hourly.map(description => description[value1][0]);
+//         });
+
+//         flattenedArray = descriptions.reduce((flat, toFlatten) => flat.concat(toFlatten), []);
+
+
+//     }
+//     return flattenedArray;
+// }
+
+function averages(array, value1, value2) {
+
+    return array.reduce((accum, element) =>{
+
+        if(value1 === 'hourly'){
+            let hourlySum = element.hourly.reduce((accum2, element2) =>{
+                return accum2 + element2[value2];
+            },0) / element.hourly.length;
+            
+            return accum + hourlySum;
+
+        } else {
+        return accum + element[value1];
+        }
+
+    },0) / array.length;
+    
+}
+
+function createCalendar(month){
+    const calendarTitleContainer = document.createElement('div')
+    calendarTitleContainer.setAttribute('class', 'calendar-title-container');
+
+    const calendarTitle = document.createElement('h3');
+    calendarTitle.setAttribute('class', 'calendar-title');
+    calendarTitle.innerText = `${month}`;
+
+    const calendarDays = document.createElement('div');
+    calendarDays.setAttribute('class', 'days-of-week');
+    const daysArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+
+    daysArray.forEach(day => {
+        const dayContainer = document.createElement('div');
+        dayContainer.innerText = day;
+        calendarDays.appendChild(dayContainer);
+    });
+
+    calendarTitleContainer.append(calendarTitle, calendarDays);
+    newCalendar.appendChild(calendarTitleContainer);
+    resultsContainer.appendChild(newCalendar);
+}
+
+function emptyLi(id){
+    const li = document.createElement('li');
+    li.setAttribute('data-id', id);
+    ulDates.appendChild(li);
+}
+
 function createLi(info){
     const li = document.createElement('li');
     li.setAttribute('class', 'item');
+    li.setAttribute('data-id', `${info.id}`);
 
     const quickInfo = document.createElement('div');
     quickInfo.setAttribute('class', 'date-quickinfo');
@@ -263,79 +355,9 @@ function createLi(info){
     overlay.appendChild(btn)
 
     li.append(quickInfo, infoContainer, overlay);
-    UlDates.appendChild(li);
+    ulDates.appendChild(li);
 
 
-}
-
-function mostCommon(array, value1) {
-    let flattenedArray;
-
-    if(array.length > 1) {
-        const firstArray = array.map(item => {
-           return item.hourly.map(description => description[value1][0]);
-        });
-
-        flattenedArray = firstArray.reduce((flat, toFlatten) => flat.concat(toFlatten), []);
-
-    } else {
-        let descriptions = array.map(item => {
-            return item.hourly.map(description => description[value1][0]);
-        });
-
-        flattenedArray = descriptions.reduce((flat, toFlatten) => flat.concat(toFlatten), []);
-
-
-    }
-    return flattenedArray;
-}
-
-
-function averages(array, value1, value2) {
-
-    return array.reduce((accum, element) =>{
-
-        if(value1 === 'hourly'){
-            let hourlySum = element.hourly.reduce((accum2, element2) =>{
-                return accum2 + element2[value2];
-            },0) / element.hourly.length;
-            
-            return accum + hourlySum;
-
-        } else {
-        return accum + element[value1];
-        }
-
-    },0) / array.length;
-    
-}
-
-function emptyLi(){
-    const li = document.createElement('li');
-    UlDates.appendChild(li);
-}
-
-function createCalendar(month){
-    const calendarTitleContainer = document.createElement('div')
-    calendarTitleContainer.setAttribute('class', 'calendar-title-container');
-
-    const calendarTitle = document.createElement('h3');
-    calendarTitle.setAttribute('class', 'calendar-title');
-    calendarTitle.innerText = `${month}`;
-
-    const calendarDays = document.createElement('div');
-    calendarDays.setAttribute('class', 'days-of-week');
-    const daysArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
-
-    daysArray.forEach(day => {
-        const dayContainer = document.createElement('div');
-        dayContainer.innerText = day;
-        calendarDays.appendChild(dayContainer);
-    });
-
-    calendarTitleContainer.append(calendarTitle, calendarDays);
-    newCalendar.appendChild(calendarTitleContainer);
-    resultsContainer.appendChild(newCalendar);
 }
 
 //use for coding look so I won't use API data
@@ -25406,6 +25428,7 @@ function fetchSubmit(location, monthNum, monthIndex, year, endDate) {
 
 
 //find days in the month
+
 function daysInMonth (month, year) {
     let numDays = new Date(year, month + 1, 0).getDate();
     return numDays;
@@ -25427,3 +25450,220 @@ function dayOfWeek (month, year, day) {
 function weekOfMonth (day, start) {
     return Math.ceil((day + start) / 7);
 }
+
+
+ulDates.addEventListener('click', (event) =>{
+    //console.log(event);
+    
+    if(event.target.classList.contains('details-button')){
+        const location = event.currentTarget.dataset.location;
+        const month = event.currentTarget.dataset.month;
+        const id = event.path[2].dataset.id;
+        const liArrayDates = dateArrayObject[id];
+
+        createDetailsPage(liArrayDates, location, month);
+        
+    }
+
+});
+
+
+function createDetailsPage(array, location, month){
+
+    console.log(array);
+    //debugger;
+
+    resultsContainer.style.display = 'none';
+    modal.classList.add('open');
+
+    const nav = document.createElement('nav');
+
+    const menu = document.createElement('div');
+    menu.classList.add('pure-menu', 'pure-menu-horizontal', 'pure-menu-fixed');
+    const menuContainer = document.createElement('div');
+    menuContainer.classList.add('menu-container');
+
+    const goBackLink = document.createElement('a');
+    goBackLink.classList.add('pure-menu-link');
+    goBackLink.href = '#';
+    goBackLink.innerHTML = '<i class="bi-arrow-left-circle-fill" role="img" aria-label="rain"></i> Go Back';
+
+    const modalTitle = document.createElement('div');
+    modalTitle.classList.add('modal-title', 'text-center');
+
+    const titleLocation = document.createElement('h2');
+    titleLocation.innerText = `${location}`;
+
+    //finding week # and day of week
+    const dayArray = array[0].date.split('-');
+    const dateDay = parseInt(dayArray[2]);
+    const dateMonth = parseInt(dayArray[1]) - 1;
+    const dateYear = parseInt(dayArray[0]);
+    const firstDay = firstDayOfMonth (dateMonth, dateYear);
+    const dateDayOfWeek = dayOfWeek(dateMonth, dateYear, dateDay);
+    const dateWeekOfMonth = weekOfMonth(dateDay, firstDay);
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const weekday = daysOfWeek[dateDayOfWeek];
+
+
+    const subtitleModal = document.createElement('h3');
+    subtitleModal.innerHTML = `${month} | Week <span class="font-3">${dateWeekOfMonth}</span>  | ${weekday}`;
+
+    modalTitle.append(titleLocation, subtitleModal);
+
+    const btnSaveDate = document.createElement('button');
+    btnSaveDate.setAttribute('type', 'submit');
+    btnSaveDate.classList.add('pure-button', 'pure-button-primary', 'block');
+    btnSaveDate.setAttribute('id', 'savedate-submit');
+    btnSaveDate.innerText = 'Save This Day';
+
+    menuContainer.append(goBackLink,modalTitle,btnSaveDate);
+    menu.appendChild(menuContainer);
+    nav.appendChild(menu);
+    modal.append(nav, modalDatesContainer);
+
+    array.forEach(createModalInfo);
+
+    const htmlTag = document.querySelector('html');
+
+    htmlTag.style.background = 'linear-gradient(to right, #ffecd2 0%, #fcb69f 100%)';
+    
+
+}
+
+function createModalInfo(date){
+    const yearContainer = document.createElement('div');
+    yearContainer.setAttribute('class', 'modal-year-container');
+    modalDatesContainer.appendChild(yearContainer);
+
+    const dayArray = date.date.split('-');
+    const dateYear = parseInt(dayArray[0]);
+    const yearTitle = document.createElement('h4');
+    yearTitle.classList.add('font-3', 'modal-year');
+    yearTitle.innerHTML = `${dateYear}`;
+
+    const modalInfo = document.createElement('div');
+    modalInfo.setAttribute('class', 'modal-info');
+
+    yearContainer.append(yearTitle,modalInfo);
+
+    //append day and night containers
+    const dayInfo = document.createElement('div');
+    dayInfo.setAttribute('class', 'day');
+    const nightInfo = document.createElement('div');
+    nightInfo.setAttribute('class', 'night');
+
+    modalInfo.append(dayInfo, nightInfo);
+
+    //append quickinfo and modal-info to day container
+    const dayQuickInfo = document.createElement('div');
+    dayQuickInfo.setAttribute('class', 'date-quickinfo');
+    const dayModalSubInfo = document.createElement('div');
+    dayModalSubInfo.setAttribute('class', 'modal-subinfo');
+
+    dayInfo.append(dayQuickInfo, dayModalSubInfo);
+    
+    //quickinfo for day
+    const dayModalIconContainer = document.createElement('div');
+    dayModalIconContainer.setAttribute('class', 'modal-icon');
+    const dayModalTempContainer = document.createElement('div');
+    dayModalTempContainer.setAttribute('class', 'modal-temp');
+
+    dayQuickInfo.append(dayModalIconContainer, dayModalTempContainer);
+
+    const dayModalSubtitle = document.createElement('p');
+    dayModalSubtitle.setAttribute('class', 'info-title');
+    dayModalSubtitle.innerText = 'Day';
+    const dayIcon = document.createElement('img');
+    dayIcon.setAttribute('class', 'icon');
+    dayIcon.src = date.hourly[2]['weather_icons'][0]; 
+    dayModalIconContainer.append(dayModalSubtitle, dayIcon);
+
+    const dayDescription = document.createElement('p');
+    dayDescription.setAttribute('class', 'description');
+    dayDescription.innerText = date.hourly[2]['weather_descriptions'][0];
+    const dayTemperature = document.createElement('p');
+    dayTemperature.setAttribute('class', 'temperature');
+    dayTemperature.innerHTML = `Feels Like: <br>${date.hourly[2].feelslike}&deg;F`;
+    dayModalTempContainer.append(dayDescription, dayTemperature);
+
+    //modal subinfo for day
+    const dayRain = document.createElement('div');
+    dayRain.setAttribute('class', 'info-group');
+    const dayRainDecimal = (date.hourly[2].precip).toFixed(2);
+    dayRain.innerHTML = `<i class="bi-cloud-rain" role="img" aria-label="rain"></i><p class="info-title">Precip:</p><p class="info-data">${dayRainDecimal} mm</p>`;
+
+    const dayHumidity = document.createElement('div');
+    dayHumidity.setAttribute('class', 'info-group');
+    dayHumidity.innerHTML = `<i class="bi-thermometer-sun" aria-label="humidity"></i><p class="info-title">Humidity:</p><p class="info-data">${date.hourly[2].humidity}&#37;</p>`;
+
+    const dayWind = document.createElement('div');
+    dayWind.setAttribute('class', 'info-group');
+    const dayWindMph = (date.hourly[2]['wind_speed'] * 0.621371).toFixed(2);
+    dayWind.innerHTML = `<i class="bi-wind" role="img" aria-label="wind"></i><p class="info-title">Wind:</p><p class="info-data">${dayWindMph} mph</p>`;
+
+    const dayCloudCover = document.createElement('div');
+    dayCloudCover.setAttribute('class', 'info-group');
+    dayCloudCover.innerHTML = `<i class="bi-cloud" role="img" aria-label="sun hours"></i><p class="info-title">Cloudcover:</p><p class="info-data">${date.hourly[2].cloudcover}&#37;</p>`;
+
+    dayModalSubInfo.append(dayRain, dayHumidity, dayWind, dayCloudCover);
+
+    //append quickinfo and modal-info to night container
+    const nightQuickInfo = document.createElement('div');
+    nightQuickInfo.setAttribute('class', 'date-quickinfo');
+    const nightModalSubInfo = document.createElement('div');
+    nightModalSubInfo.setAttribute('class', 'modal-subinfo');
+
+    nightInfo.append(nightQuickInfo, nightModalSubInfo);
+    
+    //quickinfo for night
+    const nightModalIconContainer = document.createElement('div');
+    nightModalIconContainer.setAttribute('class', 'modal-icon');
+    const nightModalTempContainer = document.createElement('div');
+    nightModalTempContainer.setAttribute('class', 'modal-temp');
+
+    nightQuickInfo.append(nightModalIconContainer, nightModalTempContainer);
+
+    const nightModalSubtitle = document.createElement('p');
+    nightModalSubtitle.setAttribute('class', 'info-title');
+    nightModalSubtitle.innerText = 'Night';
+    const nightIcon = document.createElement('img');
+    nightIcon.setAttribute('class', 'icon');
+    nightIcon.src = date.hourly[3]['weather_icons'][0]; 
+    nightModalIconContainer.append(nightModalSubtitle, nightIcon);
+
+    const nightDescription = document.createElement('p');
+    nightDescription.setAttribute('class', 'description');
+    nightDescription.innerText = date.hourly[3]['weather_descriptions'][0];
+    const nightTemperature = document.createElement('p');
+    nightTemperature.setAttribute('class', 'temperature');
+    nightTemperature.innerHTML = `Feels Like: <br>${date.hourly[3].feelslike}&deg;F`;
+    nightModalTempContainer.append(nightDescription, nightTemperature);
+
+    //modal subinfo for night
+    const nightRain = document.createElement('div');
+    nightRain.setAttribute('class', 'info-group');
+    const nighRainDecimal = (date.hourly[3].precip).toFixed(2);
+    nightRain.innerHTML = `<i class="bi-cloud-rain" role="img" aria-label="rain"></i><p class="info-title">Precip:</p><p class="info-data">${nighRainDecimal} mm</p>`;
+
+    const nightHumidity = document.createElement('div');
+    nightHumidity.setAttribute('class', 'info-group');
+    nightHumidity.innerHTML = `<i class="bi-thermometer-sun" aria-label="humidity"></i><p class="info-title">Humidity:</p><p class="info-data">${date.hourly[3].humidity}&#37;</p>`;
+
+    const nightWind = document.createElement('div');
+    nightWind.setAttribute('class', 'info-group');
+    const nightWindMph = (date.hourly[3]['wind_speed'] * 0.621371).toFixed(2);
+    nightWind.innerHTML = `<i class="bi-wind" role="img" aria-label="wind"></i><p class="info-title">Wind:</p><p class="info-data">${nightWindMph} mph</p>`;
+
+    const nightCloudCover = document.createElement('div');
+    nightCloudCover.setAttribute('class', 'info-group');
+    nightCloudCover.innerHTML = `<i class="bi-cloud" role="img" aria-label="sun hours"></i><p class="info-title">Cloudcover:</p><p class="info-data">${date.hourly[3].cloudcover}&#37;</p>`;
+
+    nightModalSubInfo.append(nightRain, nightHumidity, nightWind, nightCloudCover);
+
+
+
+
+
+}
+
