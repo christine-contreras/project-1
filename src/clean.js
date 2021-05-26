@@ -6,7 +6,7 @@ newCalendar.setAttribute('id', `js-calendar`);
 newCalendar.setAttribute('class', 'calendar');
 const ulDates = document.createElement('ul');
 ulDates.setAttribute('class', 'date-grid');
-const modal = document.querySelector('.details-modal');
+const modal = document.getElementById('details-modal');
 const modalDatesContainer = document.createElement('div');
 modalDatesContainer.classList.add('modal-dates', 'text-center');
 const goBackLink = document.createElement('a');
@@ -18,6 +18,8 @@ const btnContainer = document.createElement('div');
 btnContainer.setAttribute('id', 'modalbtn-container');
 const seeSavedDatesLink = document.createElement('a');
 seeSavedDatesLink.setAttribute('id', 'modal-seedates');
+const heroContainer = document.getElementById('hero');
+const SavedDatesModal = document.getElementById('saveddates-modal');
 
 const today = new Date();
 const currentMonth = today.getMonth();
@@ -158,12 +160,16 @@ function createDateObjects(array, object, id) {
     //add id as key: value
     object.id = id;
 
+    //calculate cloudcover
+    const cloudAvg = Math.ceil(averages(array, 'hourly', 'cloudcover'));
+    object.cloudcover = cloudAvg;
+
     //calculate mintemp avg & add to object
-    const minTempAvg = Math.ceil(averages(array, 'mintemp'))
+    const minTempAvg = Math.ceil(averages(array, 'mintemp'));
     object.mintemp = minTempAvg;
 
     //calculate maxtemp ave & add to object
-    const maxTempAvg = Math.ceil(averages(array, 'maxtemp'))
+    const maxTempAvg = Math.ceil(averages(array, 'maxtemp'));
     object.maxtemp = maxTempAvg;
 
     //calculate rain ave & add to object
@@ -171,15 +177,15 @@ function createDateObjects(array, object, id) {
     object.rain = rainAvg;
 
     //calculate wind ave & add to object
-    const windAvg = Math.ceil(averages(array, 'hourly', 'wind_speed'))
+    const windAvg = Math.ceil(averages(array, 'hourly', 'wind_speed'));
     object.wind = windAvg;
 
     //calculate humidity ave & add to object
-    const humidityAvg = Math.ceil(averages(array, 'hourly', 'humidity'))
+    const humidityAvg = Math.ceil(averages(array, 'hourly', 'humidity'));
     object.humidity = humidityAvg;
 
     //calculate humidity ave & add to object
-    const sunAvg = Math.ceil(averages(array, 'sunhour'))
+    const sunAvg = Math.ceil(averages(array, 'sunhour'));
     object.sun = sunAvg;
 
     
@@ -238,31 +244,14 @@ function createDateObjects(array, object, id) {
     object.icon = icon;
 
     //console.log(object)
-
     createLi(object);
+
+    return dayAverageArrays.push(object);
+
+    
 }
 
-// function mostCommon(array, value1) {
-//     let flattenedArray;
-
-//     if(array.length > 1) {
-//         const firstArray = array.map(item => {
-//            return item.hourly.map(description => description[value1][0]);
-//         });
-
-//         flattenedArray = firstArray.reduce((flat, toFlatten) => flat.concat(toFlatten), []);
-
-//     } else {
-//         let descriptions = array.map(item => {
-//             return item.hourly.map(description => description[value1][0]);
-//         });
-
-//         flattenedArray = descriptions.reduce((flat, toFlatten) => flat.concat(toFlatten), []);
-
-
-//     }
-//     return flattenedArray;
-// }
+const dayAverageArrays = [];
 
 function averages(array, value1, value2) {
 
@@ -25537,7 +25526,7 @@ function createDetailsPage(array, location, month, id){
             }
         });
 
-        debugger;
+        //debugger;
 
         //add if it doesn't exist let the button be clickable
         if(find !== undefined) {
@@ -25700,17 +25689,20 @@ function createModalInfo(date){
 }
 
 goBackLink.addEventListener('click', () =>{
+    removeModal();
+});
+
+function removeModal(){
     modal.classList.remove('open');
     btnSaveDate.removeAttribute('data-btn');
     modalDatesContainer.innerHTML = '';
     modal.innerHTML = '';
     btnContainer.innerHTML = '';
-    htmlTag.style.background = 'none';
     resultsContainer.style.display = 'block';
     btnSaveDate.innerHTML = '';
     btnSaveDate.disabled = false;
-
-});
+    htmlTag.style.background = 'none';
+}
 
 
 modal.addEventListener('click', (event) =>{
@@ -25725,8 +25717,9 @@ modal.addEventListener('click', (event) =>{
         const modalWeekDay = document.getElementById('modal-weekday').innerText;
 
         const arrayId = event.target.dataset.btn;
-        const days = dateArrayObject[arrayId];
-        addToServer(modalLocation, modalMonth, modalWeek, modalWeekDay, days);
+        //const days = dateArrayObject[arrayId];
+        const day = dayAverageArrays[arrayId];
+        addToServer(modalLocation, modalMonth, modalWeek, modalWeekDay, day);
 
     } //if click is on save date btn
 
@@ -25770,4 +25763,14 @@ function savedDateSubmitAction() {
 
 seeSavedDatesLink.addEventListener('click', (event) => {
     console.log(event);
+
+    //if modal is open close it and remove html in modal
+    if(modal.classList.contains('open')){
+        removeModal();
+    } 
+    
+    heroContainer.style.display = 'none';
+    resultsContainer.style.display = 'none';
+    SavedDatesModal.classList.add('open');
+
 });
