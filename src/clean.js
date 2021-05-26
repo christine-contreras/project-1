@@ -13,6 +13,7 @@ const goBackLink = document.createElement('a');
 goBackLink.setAttribute('id', 'return-link');
 goBackLink.classList.add('pure-menu-link');
 const htmlTag = document.querySelector('html');
+const btnSaveDate = document.createElement('button');
 
 const today = new Date();
 const currentMonth = today.getMonth();
@@ -25473,15 +25474,15 @@ ulDates.addEventListener('click', (event) =>{
 
 });
 
-
+//See Details Functions
 function createDetailsPage(array, location, month, id){
 
-    console.log(array);
-    debugger;
+    //console.log(array);
+    //debugger;
 
     resultsContainer.style.display = 'none';
     modal.classList.add('open');
-    modal.setAttribute('id', `${id}`);
+    
 
     const nav = document.createElement('nav');
 
@@ -25512,14 +25513,15 @@ function createDetailsPage(array, location, month, id){
 
 
     const subtitleModal = document.createElement('h3');
-    subtitleModal.innerHTML = `${month} | Week <span class="font-3">${dateWeekOfMonth}</span>  | ${weekday}`;
+    subtitleModal.innerHTML = `<span id="modal-month">${month}</span>  | Week <span class="font-3" id="modal-week">${dateWeekOfMonth}</span>  | <span id="modal-weekday">${weekday}</span>`;
 
     modalTitle.append(titleLocation, subtitleModal);
 
-    const btnSaveDate = document.createElement('button');
+    
     btnSaveDate.setAttribute('type', 'submit');
     btnSaveDate.classList.add('pure-button', 'pure-button-primary', 'block');
     btnSaveDate.setAttribute('id', 'savedate-submit');
+    btnSaveDate.setAttribute('data-btn', `${id}`);
     btnSaveDate.innerText = 'Save This Day';
 
     menuContainer.append(goBackLink,modalTitle,btnSaveDate);
@@ -25672,7 +25674,7 @@ function createModalInfo(date){
 
 goBackLink.addEventListener('click', () =>{
     modal.classList.remove('open');
-    modal.removeAttribute('id');
+    btnSaveDate.removeAttribute('data-btn');
     modalDatesContainer.innerHTML = '';
     modal.innerHTML = '';
     htmlTag.style.background = 'none';
@@ -25681,8 +25683,58 @@ goBackLink.addEventListener('click', () =>{
 });
 
 
-// modal.addEventListener('click', (event) =>{
-//     console.log(event.target);
-// });
+modal.addEventListener('click', (event) =>{
+    //console.log(event);
+    //store h2 and h3
+    console.log(event.path[2].children[0].children[1]);
+    debugger;
+    //if modal target = save date btn
+    if(event.target.id === 'savedate-submit'){
+
+        const arrayId = event.target.dataset.btn;
+        const days = dateArrayObject[arrayId];
+        let lastDayInArray = dateArrayObject[arrayId].length - 1;
+
+        //see if date already exists
+        // fetch('http://localhost:3000/savedDates') //GET request
+        // .then(response => response.json())
+        // .then(json => {
+          
+        //  let find = json.find(object => {
+        //     let checkdate = object.days.length - 1;
+        //     return object.days[checkdate].date === days[lastDayInArray].date;
+        //  });
+
+        //  if(find == undefined){
+        //     console.log('add to server');   
+        //  }
+      
+        // });
+    
+        // const formData = {
+        //     location: 
+        // };
+        const configuationObject = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(formData)
+        }
+        fetch('http://localhost:3000/savedDates', configuationObject)
+        .then(response => response.json())
+        .then(json => {
+            console.log(json)
+            //debugger;
+        
+        });
+
+    }
+
+    
+
+
+});
 
 
