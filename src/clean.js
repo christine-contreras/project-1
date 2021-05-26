@@ -25685,56 +25685,63 @@ goBackLink.addEventListener('click', () =>{
 
 modal.addEventListener('click', (event) =>{
     //console.log(event);
-    //store h2 and h3
-    console.log(event.path[2].children[0].children[1]);
-    debugger;
+    //debugger;
+
     //if modal target = save date btn
     if(event.target.id === 'savedate-submit'){
+        const modalLocation = event.path[2].children[0].children[1].children[0].innerText;
+        const modalMonth = document.getElementById('modal-month').innerText;
+        const modalWeek = document.getElementById('modal-week').innerText;
+        const modalWeekDay = document.getElementById('modal-weekday').innerText;
 
         const arrayId = event.target.dataset.btn;
         const days = dateArrayObject[arrayId];
         let lastDayInArray = dateArrayObject[arrayId].length - 1;
 
         //see if date already exists
-        // fetch('http://localhost:3000/savedDates') //GET request
-        // .then(response => response.json())
-        // .then(json => {
-          
-        //  let find = json.find(object => {
-        //     let checkdate = object.days.length - 1;
-        //     return object.days[checkdate].date === days[lastDayInArray].date;
-        //  });
-
-        //  if(find == undefined){
-        //     console.log('add to server');   
-        //  }
-      
-        // });
-    
-        // const formData = {
-        //     location: 
-        // };
-        const configuationObject = {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify(formData)
-        }
-        fetch('http://localhost:3000/savedDates', configuationObject)
+        fetch('http://localhost:3000/savedDates') //GET request
         .then(response => response.json())
         .then(json => {
-            console.log(json)
-            //debugger;
-        
-        });
+          
+         let find = json.find(object => {
+            let checkdate = object.years.length - 1;
+            return object.years[checkdate].date === days[lastDayInArray].date;
+         });
+
+         if(find == undefined){
+            console.log('add to server');  
+             addToServer(modalLocation, modalMonth, modalWeek, modalWeekDay, days);
+             
+         }
+      
+        });     
 
     }
-
-    
-
-
 });
 
+function addToServer(locationID, monthID, weekID, weekDayID, arrayID) {
+    const formData = {
+        location: locationID,
+        month: monthID,
+        week: weekID,
+        dayOfWeek: weekDayID,
+        years: arrayID
+    };
 
+    const configuationObject = {
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    },
+    body: JSON.stringify(formData)
+    };
+
+    fetch('http://localhost:3000/savedDates', configuationObject)
+    .then(response => response.json())
+    .then(json => {
+        console.log(json)
+        //debugger;
+
+    });
+}
