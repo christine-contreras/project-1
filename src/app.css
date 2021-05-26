@@ -274,7 +274,7 @@ h1, .h1 {
 }
 
 
-/* modal */
+/* modal nav */
 .details-modal{
     position: absolute;
     top: 0;
@@ -293,8 +293,36 @@ h1, .h1 {
 
 .details-modal .menu-container{
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-columns: 15% 70% 15%;
     align-items: center;
+}
+
+#modalbtn-container{
+    display: flex;
+    flex-flow: column wrap;
+    text-align: center;
+}
+
+#modalbtn-container .saved-message{
+    display: inline-block;
+}
+
+#modal-seedates{
+    white-space: normal;
+    font-size: 15px;
+    color: #3d4c5a;
+    text-decoration: underline;
+}
+
+#return-link{
+    text-align: center;
+}
+
+#return-link:hover, .pure-menu-link:active{
+    background: none;
+    border: 2px solid;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 .details-modal .menu-container .pure-button{
@@ -302,7 +330,16 @@ h1, .h1 {
     justify-self: end;
 }
 
+.details-modal .menu-container .pure-button:active {
+    padding: 10px;
+    transition: padding 0.5s ease;
+}
 
+.details-modal .menu-container .pure-button[disabled]{
+    opacity: .7;
+}
+
+/* modal details */
 .modal-dates{
     position: relative;
     top: 152px;
