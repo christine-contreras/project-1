@@ -16,6 +16,8 @@ const htmlTag = document.querySelector('html');
 const btnSaveDate = document.createElement('button');
 const btnContainer = document.createElement('div');
 btnContainer.setAttribute('id', 'modalbtn-container');
+const seeSavedDatesLink = document.createElement('a');
+seeSavedDatesLink.setAttribute('id', 'modal-seedates');
 
 const today = new Date();
 const currentMonth = today.getMonth();
@@ -25529,56 +25531,25 @@ function createDetailsPage(array, location, month, id){
     .then(json => {
 
         let find = json.find(object => {
-            
-            if(object.location !== location){
-                console.log('location not the same create save this day btn')
+            if(object.location === location && object.month === month && object.week === dateWeekOfMonth.toString() && object.dayOfWeek === weekday){
+                //console.log('returning object means that it already exists')
                 return object;
-            } else {
-
-                if(object.month !== month){
-                    console.log('month is not the same create save this day btn');
-                    return object;
-                } else {
-
-                    if(object.week !== dateWeekOfMonth.toString()){
-                        console.log('week is not the same create save this day btn');
-                        return object;
-                    } else {
-
-                        if(object.dayOfWeek !== weekday.toString()){
-                            console.log('day of week is not the same create save this day btn');
-                            return object;
-                        }
-                    }
-                }
             }
-
         });
+
+        debugger;
 
         //add if it doesn't exist let the button be clickable
         if(find !== undefined) {
-            btnSaveDate.innerText = 'Save This Day';
-            
-        } else {
             //console.log('disabled btn');
             savedDateSubmitAction();
             
+        } else {
+            btnSaveDate.innerText = 'Save This Day';
         }
-
-
-
-        
-    
     });   
 
-
-
-    
-    
-
     btnContainer.appendChild(btnSaveDate)
-
-    
 
     menuContainer.append(goBackLink,modalTitle,btnContainer);
     menu.appendChild(menuContainer);
@@ -25748,8 +25719,7 @@ modal.addEventListener('click', (event) =>{
 
     //if modal target = save date btn
     if(event.target.id === 'savedate-submit'){
-        //debugger;
-        const modalLocation = event.path[2].children[1].children[1].children[0].innerText;
+        const modalLocation = event.path[2].children[1].children[0].innerText;
         const modalMonth = document.getElementById('modal-month').innerText;
         const modalWeek = document.getElementById('modal-week').innerText;
         const modalWeekDay = document.getElementById('modal-weekday').innerText;
@@ -25783,24 +25753,21 @@ function addToServer(locationID, monthID, weekID, weekDayID, arrayID) {
 
     fetch('http://localhost:3000/savedDates', configuationObject)
     .then(response => response.json())
-    .then(json => {
-        //console.log(json);
-
-        savedDateSubmitAction();
-        //debugger;
-
-    });
+    .then(savedDateSubmitAction);
 }
 
 
 function savedDateSubmitAction() {
     btnSaveDate.disabled = true;
     btnSaveDate.innerHTML = '<i class="bi-bookmark-heart-fill" role="img" aria-label="rain"></i> Date Saved!';
-    const seeSavedDatesLink = document.createElement('a');
+    
     seeSavedDatesLink.innerText = 'See All Saved Dates';
-    seeSavedDatesLink.classList.add('pure-menu-link');
-    seeSavedDatesLink.setAttribute('id', 'modal-seedates');
-    seeSavedDatesLink.src ='#';
+    seeSavedDatesLink.href ='#';
     btnContainer.appendChild(seeSavedDatesLink);
 
 }
+
+
+seeSavedDatesLink.addEventListener('click', (event) => {
+    console.log(event);
+});
