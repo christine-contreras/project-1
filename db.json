@@ -1,23 +1,5 @@
 {
   "savedDates": [
-    {
-      "location": "Austin, TX",
-      "month": "March",
-      "week": "1",
-      "dayOfWeek": "Wednesday",
-      "years": {
-        "id": 3,
-        "cloudcover": 49,
-        "mintemp": 55,
-        "maxtemp": 69,
-        "rain": 0.037500000000000006,
-        "wind": 7,
-        "humidity": 70,
-        "sun": 9,
-        "description": "Partly cloudy",
-        "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png"
-      },
-      "id": 1
-    }
+
   ]
 }

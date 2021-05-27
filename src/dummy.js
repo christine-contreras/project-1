@@ -1,6 +1,7 @@
 const apiKey = 'fba8c59e3a5f9d7d2ed8d4014b3ddc97';
 const form = document.getElementById('form');
 const resultsContainer = document.getElementById('calendar-results');
+const topNav = document.getElementById('nav-links');
 const newCalendar = document.createElement('div');
 newCalendar.setAttribute('id', `js-calendar`);
 newCalendar.setAttribute('class', 'calendar');
@@ -25625,7 +25626,7 @@ function createModalInfo(date){
 
     const dayCloudCover = document.createElement('div');
     dayCloudCover.setAttribute('class', 'info-group');
-    dayCloudCover.innerHTML = `<i class="bi-cloud" role="img" aria-label="sun hours"></i><p class="info-title">Cloudcover:</p><p class="info-data">${date.hourly[2].cloudcover}&#37;</p>`;
+    dayCloudCover.innerHTML = `<i class="bi-cloud" role="img" aria-label="cloudcover"></i><p class="info-title">Cloudcover:</p><p class="info-data">${date.hourly[2].cloudcover}&#37;</p>`;
 
     dayModalSubInfo.append(dayRain, dayHumidity, dayWind, dayCloudCover);
 
@@ -25678,7 +25679,7 @@ function createModalInfo(date){
 
     const nightCloudCover = document.createElement('div');
     nightCloudCover.setAttribute('class', 'info-group');
-    nightCloudCover.innerHTML = `<i class="bi-cloud" role="img" aria-label="sun hours"></i><p class="info-title">Cloudcover:</p><p class="info-data">${date.hourly[3].cloudcover}&#37;</p>`;
+    nightCloudCover.innerHTML = `<i class="bi-cloud" role="img" aria-label="cloudcover"></i><p class="info-title">Cloudcover:</p><p class="info-data">${date.hourly[3].cloudcover}&#37;</p>`;
 
     nightModalSubInfo.append(nightRain, nightHumidity, nightWind, nightCloudCover);
 
@@ -25706,9 +25707,6 @@ function removeModal(){
 
 
 modal.addEventListener('click', (event) =>{
-    //console.log(event);
-    //debugger;
-
     //if modal target = save date btn
     if(event.target.id === 'savedate-submit'){
         const modalLocation = event.path[2].children[1].children[0].innerText;
@@ -25762,15 +25760,163 @@ function savedDateSubmitAction() {
 
 
 seeSavedDatesLink.addEventListener('click', (event) => {
-    console.log(event);
-
+    //console.log(event);
     //if modal is open close it and remove html in modal
     if(modal.classList.contains('open')){
         removeModal();
-    } 
-    
+    }
+
+    createSavedDates();
+});
+
+
+function createSavedDates() {
+     
+
     heroContainer.style.display = 'none';
     resultsContainer.style.display = 'none';
     SavedDatesModal.classList.add('open');
+    const savedTitle = document.createElement('h1');
+    savedTitle.innerText = 'Saved Dates';
 
+    SavedDatesModal.appendChild(savedTitle);
+
+
+
+    fetch('http://localhost:3000/savedDates') //GET request
+    .then(response => response.json())
+    .then(json => {
+        json.forEach(day => {
+
+            let cityContainer;
+            //see if city container already exists 
+            if(SavedDatesModal.innerHTML.includes(day.location)){
+                //console.log('add to div with data-city');
+                cityContainer = document.querySelector(`[data-city='${day.location}']`);
+            } else {
+                cityContainer = document.createElement('div');
+                cityContainer.setAttribute('data-city', `${day.location}`)
+                cityContainer.setAttribute('class', 'city-container');
+                SavedDatesModal.appendChild(cityContainer);
+
+                const cityContainerTitle = document.createElement('h3');
+                cityContainerTitle.innerText = day.location;
+                cityContainer.appendChild(cityContainerTitle);
+            }
+
+            const dateContainer = document.createElement('div');
+            dateContainer.setAttribute('class', 'modal-year-container');
+            cityContainer.appendChild(dateContainer);
+
+            createModalSavedDate(day, dateContainer);
+        });
+    });
+
+}
+
+function createModalSavedDate(date, container){
+    const monthitle = document.createElement('h4');
+    monthitle.classList.add('modal-year');
+    monthitle.innerHTML = `${date.month}`;
+
+    const modalInfo = document.createElement('div');
+    modalInfo.setAttribute('class', 'modal-info');
+
+    container.append(monthitle,modalInfo);
+
+    const modalSubtitle = document.createElement('p');
+    modalSubtitle.classList.add('modal-subtitle');
+    modalSubtitle.innerHTML = `<span class="bold">Week ${date.week}:</span> ${date.dayOfWeek}`;
+
+    const info = document.createElement('div');
+    info.setAttribute('class', 'day');
+
+    modalInfo.append(modalSubtitle, info);
+
+    //append quickinfo and modal-info to day container
+    const quickInfo = document.createElement('div');
+    quickInfo.setAttribute('class', 'date-quickinfo');
+    const subInfo = document.createElement('div');
+    subInfo.setAttribute('class', 'modal-subinfo');
+
+    info.append(quickInfo, subInfo);
+    
+    //quickinfo for date
+    const icon = document.createElement('img');
+    icon.setAttribute('class', 'icon');
+    icon.src = date.years.icon; 
+    const description = document.createElement('p');
+    description.setAttribute('class', 'description');
+    description.innerText = date.years.description;
+    const temperature = document.createElement('p');
+    temperature.setAttribute('class', 'temperature');
+    temperature.innerHTML = `${date.years.mintemp}&deg;F / ${date.years.mintemp}&deg;F`;
+
+    quickInfo.append(icon, description, temperature);
+
+    //modal subinfo for day
+    const rain = document.createElement('div');
+    rain.setAttribute('class', 'info-group');
+    const rainDecimal = (date.years.rain).toFixed(2);
+    rain.innerHTML = `<i class="bi-cloud-rain" role="img" aria-label="rain"></i><p class="info-title">Precip:</p><p class="info-data">${rainDecimal} mm</p>`;
+
+    const humidity = document.createElement('div');
+    humidity.setAttribute('class', 'info-group');
+    humidity.innerHTML = `<i class="bi-thermometer-sun" aria-label="humidity"></i><p class="info-title">Humidity:</p><p class="info-data">${date.years.humidity}&#37;</p>`;
+
+    const wind = document.createElement('div');
+    wind.setAttribute('class', 'info-group');
+    const windMph = (date.years.wind * 0.621371).toFixed(2);
+    wind.innerHTML = `<i class="bi-wind" role="img" aria-label="wind"></i><p class="info-title">Wind:</p><p class="info-data">${windMph} mph</p>`;
+
+    const cloudCover = document.createElement('div');
+    cloudCover.setAttribute('class', 'info-group');
+    cloudCover.innerHTML = `<i class="bi-cloud" role="img" aria-label="cloudcover"></i><p class="info-title">Cloudcover:</p><p class="info-data">${date.years.cloudcover}&#37;</p>`;
+
+    const sun = document.createElement('div');
+    sun.setAttribute('class', 'info-group');
+    sun.innerHTML = `<i class="bi-sunset" role="img" aria-label="sun hours"></i><p class="info-title">Sun:</p><p class="info-data">${date.years.sun} hrs.</p>`;
+
+    subInfo.append(rain, humidity, wind, cloudCover, sun);
+
+    
+
+
+
+
+
+}
+
+
+topNav.addEventListener('click', (event) => {
+    console.log(event);
+
+    const homeBtn = event.path[2].children[0].children[0];
+    const datesBtn = event.path[2].children[1].children[0];
+    //debugger;
+
+    if(event.target === homeBtn){
+        console.log('home btn hit');
+        heroContainer.style.display = "flex";
+        resultsContainer.style.display = 'block';
+        SavedDatesModal.classList.remove('open');
+        SavedDatesModal.innerHTML = '';
+
+
+
+    }
+
+    if(event.target === datesBtn){
+        console.log('date btn hit');
+        if(SavedDatesModal.innerHTML === ''){
+            createSavedDates();
+
+            event.path[2].children[0].classList.remove('pure-menu-selected');
+            event.path[2].children[1].classList.add('pure-menu-selected');
+        }
+        
+        
+    }
+
+    
 });

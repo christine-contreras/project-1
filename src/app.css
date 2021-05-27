@@ -39,6 +39,11 @@ h1, .h1 {
 .block{
     display: block;
 }
+
+.bold{
+    font-weight: 500;
+}
+
 /* navigation */
 .pure-menu{
     background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
@@ -55,6 +60,13 @@ h1, .h1 {
 
 .pure-menu-list{
     float: right;
+}
+
+.pure-menu-link:hover, .pure-menu-link:active{
+    background: none;
+    border: 2px solid;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 .pure-menu-selected > .pure-menu-link, .pure-menu-selected > .pure-menu-link:visited{
@@ -323,12 +335,7 @@ h1, .h1 {
     text-align: center;
 }
 
-#return-link:hover, .pure-menu-link:active{
-    background: none;
-    border: 2px solid;
-    border-radius: 5px;
-    font-weight: bold;
-}
+
 
 #details-modal .menu-container .pure-button{
     margin: 0;
@@ -419,4 +426,30 @@ h1, .h1 {
 /* saved dates modal */
 #saveddates-modal{
     background: #fff;
+}
+
+#saveddates-modal.open{
+    top: 140px;
+    text-align: center;
+}
+
+.modal-subtitle{
+    font-size: 1.25em;
+    margin-top: 0;
+}
+
+.city-container{
+    max-width: 600px;
+    margin: auto;
+    padding-top: 4em;
+    padding-bottom: 2em;
+}
+
+.city-container .modal-year-container{
+    margin-top: 2em;
+    box-shadow: 0 5px 20px rgb(0 0 0 / 30%);
+}
+
+.city-container .date-quickinfo{
+    flex-flow: column;
 }
