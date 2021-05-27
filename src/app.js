@@ -26,7 +26,7 @@ const today = new Date();
 const currentMonth = today.getMonth();
 const currentYear = today.getFullYear();
 let year1, year2, year3, year4, year5;
-//console.log(today.toDateString());
+
 var [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 
 function initForm() {
@@ -35,6 +35,8 @@ function initForm() {
     ulDates.innerHTML = '';
 
     [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+
+    liArrayDates = [];
 }
 
 
@@ -57,7 +59,7 @@ form.addEventListener('submit', (event) => {
     } else {
         year1 = currentYear - 1;
     }
-    //console.log(`year to start search on: ${year1}`);
+
     year2 = year1 - 1;
     year3 = year1 - 2;
     year4 = year1 - 3;
@@ -65,15 +67,11 @@ form.addEventListener('submit', (event) => {
 
 
     let numDays = daysInMonth(monthIndex, year1)
-    //let firstDayOfWeek = dayOfWeek(monthIndex, year1);
-    //console.log('number of days in month: ' + numDays)
     
-
     //changing month into correct format for URL
     if (monthIndex < 10) {
         monthNum = `0${monthIndex + 1}`;
     } 
-    //console.log(`month to pass into URL: ${monthIndex}`)
 
     const calendarTitle = document.createElement('h2');
     calendarTitle.setAttribute('class', 'h1')
@@ -177,12 +175,6 @@ form.addEventListener('submit', (event) => {
 
         getData();
     }
-    
-
-    //debugger;
-    
-    //Need to wait for fetchSumbits to be done before this function runs
-    //dayAverages(); 
 
 });
 
@@ -202,8 +194,6 @@ function fetchSubmit(location, monthNum, monthIndex, year, endDate) {
         .then(object => {
             //pull key values for each day of month
             const datesObject = object.historical;
-            //debugger;
-            //console.log(datesObject)
     
             //push each date into the right array
             for(const date in datesObject) {
@@ -221,7 +211,6 @@ function fetchSubmit(location, monthNum, monthIndex, year, endDate) {
                 window[`week${dateWeekOfMonth}Day${dateDayOfWeek}`].push(data);
                 
             }
-            //debugger;
 
             resolve(`${year} done fetching`);
 
@@ -230,13 +219,6 @@ function fetchSubmit(location, monthNum, monthIndex, year, endDate) {
 
 
     });
-
-    
-    //find start day of month
-    //debugger;
-    
-    
-
 }
 
 
@@ -244,11 +226,8 @@ function dayAverages() {
 
     return new Promise(resolve => { 
         var dayOfMonthArrays = [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6]
-        //debugger;
     
         dayOfMonthArrays.forEach(day => {
-            //debugger;
-            //console.log(day);
             let id;
     
             if (day.length === 0){
@@ -308,19 +287,11 @@ function createDateObjects(array, object, id) {
     const sunAvg = Math.ceil(averages(array, 'sunhour'));
     object.sun = sunAvg;
 
-    
-    //console.log(array)
-    //create new array from weather description
-    //const descriptionArray = mostCommon(array, 'weather_descriptions');
-
     //create new array from weather descriptions at noon
     const descriptionArray = array.map(item => {
         let description = item['hourly'][2]['weather_descriptions'][0];
         return description;
     });
-
-    //console.log(descriptionArray);
-    
 
     const descriptionOccur = descriptionArray.reduce((accum, element) => {
         if (typeof accum[element] == 'undefined') {
@@ -331,16 +302,10 @@ function createDateObjects(array, object, id) {
         return accum;
     }, {});
 
-    //console.log(descriptionOccur);
     
-
     const description = Object.keys(descriptionOccur).reduce((a, b) => descriptionOccur[a] > descriptionOccur[b] ? a : b);
     object.description = description;
 
-    //console.log(description);
-
-    //create new array from weather icon
-    //const iconArray = mostCommon(array, 'weather_icons');
 
     //create new array from weather descriptions at noon
     const iconArray = array.map(item => {
@@ -358,14 +323,11 @@ function createDateObjects(array, object, id) {
         return accum;
     }, {});
 
-    //console.log(iconOccur);
 
     const icon = Object.keys(iconOccur).reduce((a, b) => iconOccur[a] > iconOccur[b] ? a : b);
     object.icon = icon;
 
-    //console.log(object)
     createLi(object);
-
     return dayAverageArrays.push(object);
 
     
@@ -484,7 +446,6 @@ function createLi(info){
 
 
 //find days in the month
-
 function daysInMonth (month, year) {
     let numDays = new Date(year, month + 1, 0).getDate();
     return numDays;
@@ -509,8 +470,6 @@ function weekOfMonth (day, start) {
 
 
 ulDates.addEventListener('click', (event) =>{
-    //console.log(event);
-    
     if(event.target.classList.contains('details-button')){
         const location = event.currentTarget.dataset.location;
         const month = event.currentTarget.dataset.month;
@@ -525,12 +484,9 @@ ulDates.addEventListener('click', (event) =>{
 
 //See Details Functions
 function createDetailsPage(array, location, month, id){
-    //console.log(array);
-    //debugger;
     resultsContainer.style.display = 'none';
     modal.classList.add('open');
     
-
     const nav = document.createElement('nav');
 
     const menu = document.createElement('div');
@@ -582,11 +538,8 @@ function createDetailsPage(array, location, month, id){
             }
         });
 
-        //debugger;
-
         //add if it doesn't exist let the button be clickable
         if(find !== undefined) {
-            //console.log('disabled btn');
             savedDateSubmitAction();
             
         } else {
@@ -737,11 +690,6 @@ function createModalInfo(date){
     nightCloudCover.innerHTML = `<i class="bi-cloud" role="img" aria-label="cloudcover"></i><p class="info-title">Cloudcover:</p><p class="info-data">${date.hourly[3].cloudcover}&#37;</p>`;
 
     nightModalSubInfo.append(nightRain, nightHumidity, nightWind, nightCloudCover);
-
-
-
-
-
 }
 
 goBackLink.addEventListener('click', () =>{
@@ -815,7 +763,6 @@ function savedDateSubmitAction() {
 
 
 seeSavedDatesLink.addEventListener('click', (event) => {
-    //console.log(event);
     //if modal is open close it and remove html in modal
     if(modal.classList.contains('open')){
         removeModal();
@@ -826,7 +773,6 @@ seeSavedDatesLink.addEventListener('click', (event) => {
 
 
 function createSavedDates() {
-     
 
     heroContainer.style.display = 'none';
     resultsContainer.style.display = 'none';
@@ -905,7 +851,7 @@ function createModalSavedDate(date, container){
     description.innerText = date.years.description;
     const temperature = document.createElement('p');
     temperature.setAttribute('class', 'temperature');
-    temperature.innerHTML = `${date.years.mintemp}&deg;F / ${date.years.mintemp}&deg;F`;
+    temperature.innerHTML = `${date.years.mintemp}&deg;F / ${date.years.maxtemp}&deg;F`;
 
     quickInfo.append(icon, description, temperature);
 
@@ -933,13 +879,6 @@ function createModalSavedDate(date, container){
     sun.innerHTML = `<i class="bi-sunset" role="img" aria-label="sun hours"></i><p class="info-title">Sun:</p><p class="info-data">${date.years.sun} hrs.</p>`;
 
     subInfo.append(rain, humidity, wind, cloudCover, sun);
-
-    
-
-
-
-
-
 }
 
 
@@ -948,7 +887,6 @@ topNav.addEventListener('click', (event) => {
 
     const homeBtn = event.path[2].children[0].children[0];
     const datesBtn = event.path[2].children[1].children[0];
-    //debugger;
 
     if(event.target === homeBtn){
         console.log('home btn hit');
@@ -956,9 +894,6 @@ topNav.addEventListener('click', (event) => {
         resultsContainer.style.display = 'block';
         SavedDatesModal.classList.remove('open');
         SavedDatesModal.innerHTML = '';
-
-
-
     }
 
     if(event.target === datesBtn){

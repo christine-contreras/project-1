@@ -1,5 +1,42 @@
 {
   "savedDates": [
-
+    {
+      "location": "Miami, FL",
+      "month": "March",
+      "week": "1",
+      "dayOfWeek": "Friday",
+      "years": {
+        "id": 5,
+        "cloudcover": 38,
+        "mintemp": 70,
+        "maxtemp": 78,
+        "rain": 0,
+        "wind": 13,
+        "humidity": 72,
+        "sun": 10,
+        "description": "Sunny",
+        "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
+      },
+      "id": 1
+    },
+    {
+      "location": "New Orleans, LA",
+      "month": "March",
+      "week": "1",
+      "dayOfWeek": "Friday",
+      "years": {
+        "id": 5,
+        "cloudcover": 25,
+        "mintemp": 55,
+        "maxtemp": 65,
+        "rain": 0,
+        "wind": 9,
+        "humidity": 62,
+        "sun": 11,
+        "description": "Partly cloudy",
+        "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png"
+      },
+      "id": 2
+    }
   ]
 }
