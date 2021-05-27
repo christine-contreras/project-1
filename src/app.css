@@ -46,6 +46,8 @@ h1, .h1 {
 
 /* navigation */
 .pure-menu{
+    background-image: -webkit-gradient(linear, left top, right top, from(#ffecd2), to(#fcb69f));
+    background-image: -o-linear-gradient(left, #ffecd2 0%, #fcb69f 100%);
     background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
 }
 
@@ -53,9 +55,15 @@ h1, .h1 {
     max-width: 1200px;
     margin: auto;
     padding: 1em;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
 }
 
 .pure-menu-list{
@@ -80,9 +88,15 @@ h1, .h1 {
     min-height: 50px;
     min-width: 50px;
     padding: 10px;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     border: 5px double #fff;
     border-radius: 100%;
     background: #3d4c5a;
@@ -90,18 +104,31 @@ h1, .h1 {
     color: rgb(255 255 255 / 87%);
 }
 .logo .d{
-    transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+        -ms-transform: scale(-1, -1);
+            transform: scale(-1, -1);
     display: inline-block;
 }
 
 
 /* hero */
 .hero{
+    background-image: -webkit-gradient(linear, left top, right top, from(#ffecd2), to(#fcb69f));
+    background-image: -o-linear-gradient(left, #ffecd2 0%, #fcb69f 100%);
     background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-flow: column nowrap;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
     height: 80vh;
     padding: 1em;
     max-height: 700px;
@@ -121,7 +148,9 @@ h1, .h1 {
 }
 
 .days-of-week, .date-grid{
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: (1fr)[7];
     grid-template-columns: repeat(7, 1fr);
 }
 
@@ -133,12 +162,14 @@ h1, .h1 {
 
 .calendar{
     margin-top: 2em;
-    box-shadow: 0 5px 20px rgb(0 0 0 / 30%);
+    -webkit-box-shadow: 0 5px 20px rgb(0 0 0 / 30%);
+            box-shadow: 0 5px 20px rgb(0 0 0 / 30%);
     border-radius: 10px;
     min-width: 1318px;
 }
 
 .calendar-title-container{
+    position: -webkit-sticky;
     position: sticky;
     top: 117px;
     z-index: 100;
@@ -172,7 +203,9 @@ h1, .h1 {
     list-style: none;
     padding: 1em;
     margin: 0;
-    column-gap: 10px;
+    -webkit-column-gap: 10px;
+       -moz-column-gap: 10px;
+            column-gap: 10px;
     row-gap: 10px;
     background-color: #fff;
 }
@@ -185,8 +218,11 @@ h1, .h1 {
 
 .date-grid .item{
     padding-top: 1em;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    display: -ms-grid;
     display: grid;
+    -ms-grid-rows: 50% 50%;
     grid-template-rows: 50% 50%;
     min-height: 370px;
     position: relative;
@@ -200,9 +236,14 @@ h1, .h1 {
     left: 0;
     border-radius: 10px;
     visibility: none;
+    display: -ms-grid;
     display: grid;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     background: rgba(0, 0, 0, 0);
+    -webkit-transition: background 0.5s ease;
+    -o-transition: background 0.5s ease;
     transition: background 0.5s ease;
 }
 
@@ -211,11 +252,14 @@ h1, .h1 {
     border: 1px solid #fff;
     color: #fff;
     display: none;
+    -webkit-transition: display 0.5s ease;
+    -o-transition: display 0.5s ease;
     transition: display 0.5s ease;
 }
 
 .date-grid .item:hover{
-    box-shadow: 0 5px 10px 2px rgb(0 0 0 / 20%);
+    -webkit-box-shadow: 0 5px 10px 2px rgb(0 0 0 / 20%);
+            box-shadow: 0 5px 10px 2px rgb(0 0 0 / 20%);
 }
 
 .date-grid .item .overlay:hover {
@@ -245,7 +289,9 @@ h1, .h1 {
 }
 
 .info{
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 50% 50%;
     grid-template-columns: 50% 50%;
     text-align: left;
     justify-items: center;
@@ -260,10 +306,14 @@ h1, .h1 {
 .info-group{
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     padding: 5px 10px;
+    display: -ms-grid;
     display: grid;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 .info > div:nth-of-type(1){
@@ -280,7 +330,9 @@ h1, .h1 {
 }
 
 .info-label{
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: auto auto;
     grid-template-columns: auto auto;
 }
 
@@ -293,6 +345,8 @@ h1, .h1 {
 /* modal nav */
 #details-modal{
     z-index: 1000;
+    background-image: -webkit-gradient(linear, left top, right top, from(#ffecd2), to(#fcb69f));
+    background-image: -o-linear-gradient(left, #ffecd2 0%, #fcb69f 100%);
     background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
 }
 #details-modal, #saveddates-modal{
@@ -306,18 +360,29 @@ h1, .h1 {
 #details-modal.open, #saveddates-modal.open{
     width: 100%;
     height: 100%;
+    -webkit-transition: height 0.5s ease, width 0.5s ease;
+    -o-transition: height 0.5s ease, width 0.5s ease;
     transition: height 0.5s ease, width 0.5s ease;
 }
 
 #details-modal .menu-container{
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 15% 70% 15%;
     grid-template-columns: 15% 70% 15%;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 #modalbtn-container{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: column wrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column wrap;
+            flex-flow: column wrap;
     text-align: center;
 }
 
@@ -340,11 +405,14 @@ h1, .h1 {
 
 #details-modal .menu-container .pure-button{
     margin: 0;
-    justify-self: end;
+    -ms-grid-column-align: end;
+        justify-self: end;
 }
 
 #details-modal .menu-container .pure-button:active {
     padding: 10px;
+    -webkit-transition: padding 0.5s ease;
+    -o-transition: padding 0.5s ease;
     transition: padding 0.5s ease;
 }
 
@@ -359,8 +427,13 @@ h1, .h1 {
     max-width: 600px;
     margin: auto;
     padding-bottom: 4em;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: column-reverse nowrap;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: reverse;
+        -ms-flex-flow: column-reverse nowrap;
+            flex-flow: column-reverse nowrap;
 }
 
 .modal-year-container{
@@ -378,9 +451,13 @@ h1, .h1 {
 }
 
 .day, .night{
+    display: -ms-grid;
     display: grid;
+    -ms-grid-columns: 40% 60%;
     grid-template-columns: 40% 60%;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 .day{
@@ -396,6 +473,7 @@ h1, .h1 {
 }
 
 .modal-info{
+    display: -ms-grid;
     display: grid;
     padding: 10px 0 10px 1em;
 }
@@ -407,11 +485,16 @@ h1, .h1 {
 }
 
 .modal-info .date-quickinfo{
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 .modal-subinfo .info-group{
+    -ms-grid-columns: 15% 30% 50%;
     grid-template-columns: 15% 30% 50%;
     padding: 0 0 5px 1em;
     justify-items: flex-start;
@@ -448,9 +531,13 @@ h1, .h1 {
 
 .city-container .modal-year-container{
     margin-top: 2em;
-    box-shadow: 0 5px 20px rgb(0 0 0 / 30%);
+    -webkit-box-shadow: 0 5px 20px rgb(0 0 0 / 30%);
+            box-shadow: 0 5px 20px rgb(0 0 0 / 30%);
 }
 
 .city-container .date-quickinfo{
-    flex-flow: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column;
+            flex-flow: column;
 }

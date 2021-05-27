@@ -38,7 +38,8 @@ function initForm() {
 
     [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 
-    liArrayDates = [];
+    dateArrayObject = [];
+    dayAverageArrays = [];
 }
 
 
@@ -224,7 +225,7 @@ function createDatesInCalendar() {
 }
 
 
-const dateArrayObject = [];
+let dateArrayObject = [];
 
 //find averages for data & push averages into new array
 function createAverageObjects(array, object, id) {
@@ -307,7 +308,7 @@ function createAverageObjects(array, object, id) {
 }
 
 //array with new average objects
-const dayAverageArrays = [];
+let dayAverageArrays = [];
 
 //function to calculate average for any numerical key in API
 function averages(array, value1, value2) {
@@ -360,7 +361,7 @@ function emptyLi(id){
     ulDates.appendChild(li);
 }
 
-//create date with info 
+//create calendar date with info 
 function createLi(info){
 
     //create list item
