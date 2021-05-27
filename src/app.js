@@ -27,8 +27,10 @@ const currentMonth = today.getMonth();
 const currentYear = today.getFullYear();
 let year1, year2, year3, year4, year5;
 
+//create arrays to push API data. array push corresponds with week and day of week the object falls on
 var [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6] = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 
+//clear data when submission is pushed
 function initForm() {
     resultsContainer.innerHTML = '';
     newCalendar.innerHTML = '';
@@ -104,73 +106,52 @@ form.addEventListener('submit', (event) => {
     ulDates.setAttribute('data-location', `${locationInput}`);
     ulDates.setAttribute('data-month', `${monthName}`);
 
-    // fetchTimes(timeframeIndex, locationInput, monthNum, monthIndex, year1, year2, year3. year4, year5, numDays);
-
+    //how many times to fetch API data (fetch for each year of data). wait for fetches to be done before calculating averages
     if(timeframeIndex === 0){
         async function getData(){
-            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
-            console.log(fetch);
-            let calcAvg = await dayAverages();
-            console.log(calcAvg);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            await createDatesInCalendar();
         }
         getData();
 
     } else if(timeframeIndex === 1){
         async function getData(){
-            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
-            console.log(fetch);
-            let fetch2 = await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
-            console.log(fetch2);
-            let calcAvg = await dayAverages();
-            console.log(calcAvg);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
+            await createDatesInCalendar();
         }
 
         getData();
 
     } else if(timeframeIndex === 2) {
         async function getData(){
-            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
-            console.log(fetch);
-            let fetch2 = await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
-            console.log(fetch2);
-            let fetch3 = await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
-            console.log(fetch3);
-            let calcAvg = await dayAverages();
-            console.log(calcAvg);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
+            await createDatesInCalendar();
         }
 
         getData();
 
     } else if(timeframeIndex === 3){
         async function getData(){
-            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
-            console.log(fetch);
-            let fetch2 = await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
-            console.log(fetch2);
-            let fetch3 = await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
-            console.log(fetch3);
-            let fetch4 = await fetchSubmit(locationInput, monthNum, monthIndex, year4, numDays);
-            console.log(fetch4);
-            let calcAvg = await dayAverages();
-            console.log(calcAvg);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year4, numDays);
+            await createDatesInCalendar();
         }
 
         getData();
 
     } else {
         async function getData(){
-            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
-            console.log(fetch);
-            let fetch2 = await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
-            console.log(fetch2);
-            let fetch3 = await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
-            console.log(fetch3);
-            let fetch4 = await fetchSubmit(locationInput, monthNum, monthIndex, year4, numDays);
-            console.log(fetch4);
-            let fetch5 = await fetchSubmit(locationInput, monthNum, monthIndex, year5, numDays);
-            console.log(fetch5);
-            let calcAvg = await dayAverages();
-            console.log(calcAvg);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year4, numDays);
+            await fetchSubmit(locationInput, monthNum, monthIndex, year5, numDays);
+            await createDatesInCalendar();
         }
 
         getData();
@@ -178,12 +159,7 @@ form.addEventListener('submit', (event) => {
 
 });
 
-// function fetchTimes(fetches, location, monthText, month, year1, year2, year3, year4, year5, daysInMonth){
-//     //how many times to fetch 
-    
-// }
-
-
+//fetch data from form submission. 
 function fetchSubmit(location, monthNum, monthIndex, year, endDate) {
 
     return new Promise(resolve => { 
@@ -206,8 +182,6 @@ function fetchSubmit(location, monthNum, monthIndex, year, endDate) {
                 let dateDayOfWeek = dayOfWeek(dateMonth, dateArray[0], dateArray[2]);
                 let dateWeekOfMonth = weekOfMonth(dateDay, startDay);
     
-                
-    
                 window[`week${dateWeekOfMonth}Day${dateDayOfWeek}`].push(data);
                 
             }
@@ -221,41 +195,39 @@ function fetchSubmit(location, monthNum, monthIndex, year, endDate) {
     });
 }
 
-
-function dayAverages() {
-
+//grab pushed objects from API, for each array create ID and list item. Save push data into new array with values
+function createDatesInCalendar() {
     return new Promise(resolve => { 
         var dayOfMonthArrays = [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6]
     
         dayOfMonthArrays.forEach(day => {
             let id;
     
+            //if array is empty create empty list item else create list item with array info
             if (day.length === 0){
                 id = dayOfMonthArrays.indexOf(day);
                 emptyLi(id);
             } else {
                 let newObject = {};
                 id = dayOfMonthArrays.indexOf(day);
-                createDateObjects(day, newObject, id);
+                createAverageObjects(day, newObject, id);
             }
     
-            //save new arrays with objects into new array
+            //save arrays with API objects into new array so we can access data later
             return dateArrayObject.push(day);
         });
     
         resolve('day averages function finished');
 
     });
-    
-    
-
-
 
 }
 
+
 const dateArrayObject = [];
 
-function createDateObjects(array, object, id) {
+//find averages for data & push averages into new array
+function createAverageObjects(array, object, id) {
     //add id as key: value
     object.id = id;
 
@@ -307,7 +279,7 @@ function createDateObjects(array, object, id) {
     object.description = description;
 
 
-    //create new array from weather descriptions at noon
+    //create new array from weather icons at noon
     const iconArray = array.map(item => {
         let description = item['hourly'][2]['weather_icons'][0];
         return description;
@@ -328,13 +300,16 @@ function createDateObjects(array, object, id) {
     object.icon = icon;
 
     createLi(object);
+
     return dayAverageArrays.push(object);
 
     
 }
 
+//array with new average objects
 const dayAverageArrays = [];
 
+//function to calculate average for any numerical key in API
 function averages(array, value1, value2) {
 
     return array.reduce((accum, element) =>{
@@ -354,6 +329,7 @@ function averages(array, value1, value2) {
     
 }
 
+//create calendar 
 function createCalendar(month){
     const calendarTitleContainer = document.createElement('div')
     calendarTitleContainer.setAttribute('class', 'calendar-title-container');
@@ -377,17 +353,22 @@ function createCalendar(month){
     resultsContainer.appendChild(newCalendar);
 }
 
+//create empty date if there is no data for that day
 function emptyLi(id){
     const li = document.createElement('li');
     li.setAttribute('data-id', id);
     ulDates.appendChild(li);
 }
 
+//create date with info 
 function createLi(info){
+
+    //create list item
     const li = document.createElement('li');
     li.setAttribute('class', 'item');
     li.setAttribute('data-id', `${info.id}`);
 
+    //create top portion of date where icon, description and min/max temp will go
     const quickInfo = document.createElement('div');
     quickInfo.setAttribute('class', 'date-quickinfo');
 
@@ -403,7 +384,7 @@ function createLi(info){
 
     quickInfo.append(icon,description,temp);
 
-
+    //create bottom portion of date item with 2x2 info grid
     const infoContainer = document.createElement('div');
     infoContainer.setAttribute('class', 'info');
 
@@ -438,12 +419,7 @@ function createLi(info){
 
     li.append(quickInfo, infoContainer, overlay);
     ulDates.appendChild(li);
-
-
 }
-
-
-
 
 //find days in the month
 function daysInMonth (month, year) {
@@ -468,8 +444,9 @@ function weekOfMonth (day, start) {
     return Math.ceil((day + start) / 7);
 }
 
-
+//if date in calendar is clicked to see details run this event listener
 ulDates.addEventListener('click', (event) =>{
+
     if(event.target.classList.contains('details-button')){
         const location = event.currentTarget.dataset.location;
         const month = event.currentTarget.dataset.month;
@@ -482,13 +459,15 @@ ulDates.addEventListener('click', (event) =>{
 
 });
 
-//See Details Functions
+//create "see details" modal
 function createDetailsPage(array, location, month, id){
+
+    //hide calendar results and open modal
     resultsContainer.style.display = 'none';
     modal.classList.add('open');
     
+    //create modal nav
     const nav = document.createElement('nav');
-
     const menu = document.createElement('div');
     menu.classList.add('pure-menu', 'pure-menu-horizontal', 'pure-menu-fixed');
     const menuContainer = document.createElement('div');
@@ -533,12 +512,11 @@ function createDetailsPage(array, location, month, id){
 
         let find = json.find(object => {
             if(object.location === location && object.month === month && object.week === dateWeekOfMonth.toString() && object.dayOfWeek === weekday){
-                //console.log('returning object means that it already exists')
                 return object;
             }
         });
 
-        //add if it doesn't exist let the button be clickable
+        //add if it doesn't exist; let the button be clickable
         if(find !== undefined) {
             savedDateSubmitAction();
             
@@ -554,18 +532,22 @@ function createDetailsPage(array, location, month, id){
     nav.appendChild(menu);
     modal.append(nav, modalDatesContainer);
 
+    //create separate details container for each year
     array.forEach(createModalInfo);
 
+    //fix background issue 
     htmlTag.style.background = 'linear-gradient(to right, #ffecd2 0%, #fcb69f 100%)';
     
-
 }
 
+//create individual container for each year in "see details"
 function createModalInfo(date){
+    //create container
     const yearContainer = document.createElement('div');
     yearContainer.setAttribute('class', 'modal-year-container');
     modalDatesContainer.appendChild(yearContainer);
 
+    //find year and add as title for container
     const dayArray = date.date.split('-');
     const dateYear = parseInt(dayArray[0]);
     const yearTitle = document.createElement('h4');
@@ -593,7 +575,7 @@ function createModalInfo(date){
 
     dayInfo.append(dayQuickInfo, dayModalSubInfo);
     
-    //quickinfo for day
+    //quickinfo for day (left side of year container)
     const dayModalIconContainer = document.createElement('div');
     dayModalIconContainer.setAttribute('class', 'modal-icon');
     const dayModalTempContainer = document.createElement('div');
@@ -617,7 +599,7 @@ function createModalInfo(date){
     dayTemperature.innerHTML = `Feels Like: <br>${date.hourly[2].feelslike}&deg;F`;
     dayModalTempContainer.append(dayDescription, dayTemperature);
 
-    //modal subinfo for day
+    //modal subinfo for day (left side of year container)
     const dayRain = document.createElement('div');
     dayRain.setAttribute('class', 'info-group');
     const dayRainDecimal = (date.hourly[2].precip).toFixed(2);
@@ -692,10 +674,12 @@ function createModalInfo(date){
     nightModalSubInfo.append(nightRain, nightHumidity, nightWind, nightCloudCover);
 }
 
+//if go back link on "see details" nav is clicks
 goBackLink.addEventListener('click', () =>{
     removeModal();
 });
 
+//minimize see details modal and reset containers to empty
 function removeModal(){
     modal.classList.remove('open');
     btnSaveDate.removeAttribute('data-btn');
@@ -709,6 +693,7 @@ function removeModal(){
 }
 
 
+//if save this day button is submitted add date to "saved dates"
 modal.addEventListener('click', (event) =>{
     //if modal target = save date btn
     if(event.target.id === 'savedate-submit'){
@@ -718,7 +703,6 @@ modal.addEventListener('click', (event) =>{
         const modalWeekDay = document.getElementById('modal-weekday').innerText;
 
         const arrayId = event.target.dataset.btn;
-        //const days = dateArrayObject[arrayId];
         const day = dayAverageArrays[arrayId];
         addToServer(modalLocation, modalMonth, modalWeek, modalWeekDay, day);
 
@@ -727,6 +711,7 @@ modal.addEventListener('click', (event) =>{
 
 });
 
+//add average for date object to server
 function addToServer(locationID, monthID, weekID, weekDayID, arrayID) {
     const formData = {
         location: locationID,
@@ -750,7 +735,7 @@ function addToServer(locationID, monthID, weekID, weekDayID, arrayID) {
     .then(savedDateSubmitAction);
 }
 
-
+//once data is added to server disable "save this day" button and add link to see saved dates
 function savedDateSubmitAction() {
     btnSaveDate.disabled = true;
     btnSaveDate.innerHTML = '<i class="bi-bookmark-heart-fill" role="img" aria-label="rain"></i> Date Saved!';
@@ -761,8 +746,9 @@ function savedDateSubmitAction() {
 
 }
 
-
+//if see saved dates is clicked
 seeSavedDatesLink.addEventListener('click', (event) => {
+
     //if modal is open close it and remove html in modal
     if(modal.classList.contains('open')){
         removeModal();
@@ -771,9 +757,8 @@ seeSavedDatesLink.addEventListener('click', (event) => {
     createSavedDates();
 });
 
-
+//create modal where you can see all saved dates from server
 function createSavedDates() {
-
     heroContainer.style.display = 'none';
     resultsContainer.style.display = 'none';
     SavedDatesModal.classList.add('open');
@@ -782,17 +767,15 @@ function createSavedDates() {
 
     SavedDatesModal.appendChild(savedTitle);
 
-
-
+    //fetch local server to populate dates
     fetch('http://localhost:3000/savedDates') //GET request
     .then(response => response.json())
     .then(json => {
         json.forEach(day => {
 
             let cityContainer;
-            //see if city container already exists 
+            //see if city container already exists. if it doesn't create the container
             if(SavedDatesModal.innerHTML.includes(day.location)){
-                //console.log('add to div with data-city');
                 cityContainer = document.querySelector(`[data-city='${day.location}']`);
             } else {
                 cityContainer = document.createElement('div');
@@ -805,17 +788,22 @@ function createSavedDates() {
                 cityContainer.appendChild(cityContainerTitle);
             }
 
+            //create container for date and append to city container
             const dateContainer = document.createElement('div');
             dateContainer.setAttribute('class', 'modal-year-container');
             cityContainer.appendChild(dateContainer);
 
+            //add info to the date container
             createModalSavedDate(day, dateContainer);
         });
     });
 
 }
 
+//populate info for saved date container
 function createModalSavedDate(date, container){
+
+    //create title for date container (month)
     const monthitle = document.createElement('h4');
     monthitle.classList.add('modal-year');
     monthitle.innerHTML = `${date.month}`;
@@ -825,6 +813,7 @@ function createModalSavedDate(date, container){
 
     container.append(monthitle,modalInfo);
 
+    //add day subtitle to container
     const modalSubtitle = document.createElement('p');
     modalSubtitle.classList.add('modal-subtitle');
     modalSubtitle.innerHTML = `<span class="bold">Week ${date.week}:</span> ${date.dayOfWeek}`;
@@ -881,13 +870,12 @@ function createModalSavedDate(date, container){
     subInfo.append(rain, humidity, wind, cloudCover, sun);
 }
 
-
+//navigation event listener
 topNav.addEventListener('click', (event) => {
-    console.log(event);
-
     const homeBtn = event.path[2].children[0].children[0];
     const datesBtn = event.path[2].children[1].children[0];
 
+    //if home button is clicked show form and calendar info
     if(event.target === homeBtn){
         console.log('home btn hit');
         heroContainer.style.display = "flex";
@@ -896,11 +884,13 @@ topNav.addEventListener('click', (event) => {
         SavedDatesModal.innerHTML = '';
     }
 
+    //if saved dates is clicked create saved dates modal
     if(event.target === datesBtn){
         console.log('date btn hit');
         if(SavedDatesModal.innerHTML === ''){
             createSavedDates();
 
+            //switch which links look active
             event.path[2].children[0].classList.remove('pure-menu-selected');
             event.path[2].children[1].classList.add('pure-menu-selected');
         }

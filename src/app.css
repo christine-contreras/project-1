@@ -188,7 +188,7 @@ h1, .h1 {
     box-sizing: border-box;
     display: grid;
     grid-template-rows: 50% 50%;
-    min-height: 350px;
+    min-height: 370px;
     position: relative;
 }
 
@@ -235,6 +235,7 @@ h1, .h1 {
 
 .description {
     margin: 0;
+    padding: 5px;
 }
 
 .temperature{
@@ -245,7 +246,7 @@ h1, .h1 {
 
 .info{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 50% 50%;
     text-align: left;
     justify-items: center;
     border-top: 1px solid #ccc;
