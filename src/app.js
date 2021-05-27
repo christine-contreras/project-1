@@ -85,7 +85,6 @@ form.addEventListener('submit', (event) => {
 
     //calendar years
     if(timeframeIndex === 4) {
-
         calendarYears.innerHTML = `${year1} - ${year5}`;
 
     } else if (timeframeIndex === 3) {
@@ -101,120 +100,174 @@ form.addEventListener('submit', (event) => {
         calendarYears.innerHTML = `${year1}`;
     }
 
-    resultsContainer.append(calendarTitle,calendarYears, calendarDetails)
-
-
-    // let fetches =  new Promise(resolve => {
-    //     console.log('starting done');
-    //     //how many times to fetch 
-    //     switch(timeframeIndex) {
-    //         case 4:
-    //             fetchSubmit(locationInput, monthNum, monthIndex, year5, numDays);
-    //         case 3:
-    //             fetchSubmit(locationInput, monthNum, monthIndex,year4, numDays);
-    //         case 2:
-    //             fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
-    //         case 1:          
-    //             fetchSubmit(locationInput, monthNum, monthIndex,year2, numDays);
-    //         case 0:
-    //             fetchSubmit(locationInput, monthNum, monthIndex,year1, numDays);
-
-    //     }
-    //         resolve('fetches done')
-    // });
-
-    // debugger;
-
-    // fetches.then(dayAverages).catch(message => console.log('did not resolve'));
-
-
-
-    //how many times to fetch 
-    switch(timeframeIndex) {
-        case 4:
-            fetchSubmit(locationInput, monthNum, monthIndex, year5, numDays);
-        case 3:
-            fetchSubmit(locationInput, monthNum, monthIndex,year4, numDays);
-        case 2:
-            fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
-        case 1:          
-            fetchSubmit(locationInput, monthNum, monthIndex,year2, numDays);
-        case 0:
-            fetchSubmit(locationInput, monthNum, monthIndex,year1, numDays);
-
-    }
-
-    
-
+    resultsContainer.append(calendarTitle,calendarYears, calendarDetails);
     createCalendar(monthName);
     newCalendar.appendChild(ulDates);
     ulDates.setAttribute('data-location', `${locationInput}`);
     ulDates.setAttribute('data-month', `${monthName}`);
-    dayAverages();
 
-        
+    // fetchTimes(timeframeIndex, locationInput, monthNum, monthIndex, year1, year2, year3. year4, year5, numDays);
+
+    if(timeframeIndex === 0){
+        async function getData(){
+            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            console.log(fetch);
+            let calcAvg = await dayAverages();
+            console.log(calcAvg);
+        }
+        getData();
+
+    } else if(timeframeIndex === 1){
+        async function getData(){
+            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            console.log(fetch);
+            let fetch2 = await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
+            console.log(fetch2);
+            let calcAvg = await dayAverages();
+            console.log(calcAvg);
+        }
+
+        getData();
+
+    } else if(timeframeIndex === 2) {
+        async function getData(){
+            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            console.log(fetch);
+            let fetch2 = await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
+            console.log(fetch2);
+            let fetch3 = await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
+            console.log(fetch3);
+            let calcAvg = await dayAverages();
+            console.log(calcAvg);
+        }
+
+        getData();
+
+    } else if(timeframeIndex === 3){
+        async function getData(){
+            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            console.log(fetch);
+            let fetch2 = await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
+            console.log(fetch2);
+            let fetch3 = await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
+            console.log(fetch3);
+            let fetch4 = await fetchSubmit(locationInput, monthNum, monthIndex, year4, numDays);
+            console.log(fetch4);
+            let calcAvg = await dayAverages();
+            console.log(calcAvg);
+        }
+
+        getData();
+
+    } else {
+        async function getData(){
+            let fetch = await fetchSubmit(locationInput, monthNum, monthIndex, year1, numDays);
+            console.log(fetch);
+            let fetch2 = await fetchSubmit(locationInput, monthNum, monthIndex, year2, numDays);
+            console.log(fetch2);
+            let fetch3 = await fetchSubmit(locationInput, monthNum, monthIndex, year3, numDays);
+            console.log(fetch3);
+            let fetch4 = await fetchSubmit(locationInput, monthNum, monthIndex, year4, numDays);
+            console.log(fetch4);
+            let fetch5 = await fetchSubmit(locationInput, monthNum, monthIndex, year5, numDays);
+            console.log(fetch5);
+            let calcAvg = await dayAverages();
+            console.log(calcAvg);
+        }
+
+        getData();
+    }
     
+
+    //debugger;
+    
+    //Need to wait for fetchSumbits to be done before this function runs
+    //dayAverages(); 
 
 });
 
+// function fetchTimes(fetches, location, monthText, month, year1, year2, year3, year4, year5, daysInMonth){
+//     //how many times to fetch 
+    
+// }
+
 
 function fetchSubmit(location, monthNum, monthIndex, year, endDate) {
-    //find start day of month
-    const startDay = firstDayOfMonth (monthIndex, year);
 
+    return new Promise(resolve => { 
+        const startDay = firstDayOfMonth (monthIndex, year);
 
-    fetch(`http://api.weatherstack.com/historical?access_key=${apiKey}&query=${location}&historical_date_start=${year}-${monthNum}-01&historical_date_end=${year}-${monthNum}-${endDate}&hourly=1&interval=6&units=f`)
-    .then(response => response.json())
-    .then(object => {
-        //pull key values for each day of month
-        const datesObject = object.historical;
-        //debugger;
-        //console.log(datesObject)
-
-        //push each date into the right array
-        for(const date in datesObject) {
-            const data = datesObject[date];
-        
-            let dateArray = data.date.split('-');
-            let dateDay = parseInt(dateArray[2]);
-
-            let dateMonth = parseInt(dateArray[1]) - 1;
-            let dateDayOfWeek = dayOfWeek(dateMonth, dateArray[0], dateArray[2]);
-            let dateWeekOfMonth = weekOfMonth(dateDay, startDay);
-
+        fetch(`http://api.weatherstack.com/historical?access_key=${apiKey}&query=${location}&historical_date_start=${year}-${monthNum}-01&historical_date_end=${year}-${monthNum}-${endDate}&hourly=1&interval=6&units=f`)
+        .then(response => response.json())
+        .then(object => {
+            //pull key values for each day of month
+            const datesObject = object.historical;
+            //debugger;
+            //console.log(datesObject)
+    
+            //push each date into the right array
+            for(const date in datesObject) {
+                const data = datesObject[date];
+            
+                let dateArray = data.date.split('-');
+                let dateDay = parseInt(dateArray[2]);
+    
+                let dateMonth = parseInt(dateArray[1]) - 1;
+                let dateDayOfWeek = dayOfWeek(dateMonth, dateArray[0], dateArray[2]);
+                let dateWeekOfMonth = weekOfMonth(dateDay, startDay);
+    
+                
+    
+                window[`week${dateWeekOfMonth}Day${dateDayOfWeek}`].push(data);
+                
+            }
             //debugger;
 
-            window[`week${dateWeekOfMonth}Day${dateDayOfWeek}`].push(data);
-        }
+            resolve(`${year} done fetching`);
+
+        });
+
+
+
     });
 
-    dayAverages();
+    
+    //find start day of month
+    //debugger;
+    
+    
 
 }
 
 
 function dayAverages() {
-    var dayOfMonthArrays = [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6]
-    //debugger;
 
-    dayOfMonthArrays.forEach(day => {
+    return new Promise(resolve => { 
+        var dayOfMonthArrays = [week1Day0,week1Day1,week1Day2,week1Day3,week1Day4,week1Day5,week1Day6,week2Day0,week2Day1,week2Day2,week2Day3,week2Day4,week2Day5,week2Day6,week3Day0,week3Day1,week3Day2,week3Day3,week3Day4,week3Day5,week3Day6,week4Day0,week4Day1,week4Day2,week4Day3,week4Day4,week4Day5,week4Day6,week5Day0,week5Day1,week5Day2,week5Day3,week5Day4,week5Day5,week5Day6,week6Day0,week6Day1,week6Day2,week6Day3,week6Day4,week6Day5,week6Day6]
         //debugger;
-        //console.log(day);
-        let id;
+    
+        dayOfMonthArrays.forEach(day => {
+            //debugger;
+            //console.log(day);
+            let id;
+    
+            if (day.length === 0){
+                id = dayOfMonthArrays.indexOf(day);
+                emptyLi(id);
+            } else {
+                let newObject = {};
+                id = dayOfMonthArrays.indexOf(day);
+                createDateObjects(day, newObject, id);
+            }
+    
+            //save new arrays with objects into new array
+            return dateArrayObject.push(day);
+        });
+    
+        resolve('day averages function finished');
 
-        if (day.length === 0){
-            id = dayOfMonthArrays.indexOf(day);
-            emptyLi(id);
-        } else {
-            let newObject = {};
-            id = dayOfMonthArrays.indexOf(day);
-            createDateObjects(day, newObject, id);
-        }
-
-        //save new arrays with objects into new array
-        return dateArrayObject.push(day);
     });
-
+    
     
 
 
