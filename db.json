@@ -1,5 +1,23 @@
 {
   "savedDates": [
-   
+    {
+      "location": "Miami, FL",
+      "month": "April",
+      "week": "1",
+      "dayOfWeek": "Saturday",
+      "years": {
+        "id": 7,
+        "cloudcover": 42,
+        "mintemp": 74,
+        "maxtemp": 77,
+        "rain": 0,
+        "wind": 14,
+        "humidity": 64,
+        "sun": 10,
+        "description": "Sunny",
+        "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
+      },
+      "id": 1
+    }
   ]
 }
