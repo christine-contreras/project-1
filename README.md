@@ -1,4 +1,4 @@
-# project-1: Perfect Date
+# Project-1: Perfect Date
 
 Perfect Date is a one-page app that pulls aggregate weather data so you can plan and save dates when weather historically looks good.
 
@@ -14,4 +14,4 @@ Perfect Date is a one-page app that pulls aggregate weather data so you can plan
 * A backend server to save dates. JSON Server was used in this project [here](https://github.com/typicode/json-server)
 
 ## Demo
-![](project1.gif)
+![Denmo](project1.gif)

@@ -18,6 +18,82 @@
         "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0001_sunny.png"
       },
       "id": 1
+    },
+    {
+      "location": "Austin, TX",
+      "month": "March",
+      "week": "1",
+      "dayOfWeek": "Friday",
+      "years": {
+        "id": 5,
+        "cloudcover": 37,
+        "mintemp": 51,
+        "maxtemp": 70,
+        "rain": 0,
+        "wind": 7,
+        "humidity": 64,
+        "sun": 11,
+        "description": "Partly cloudy",
+        "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png"
+      },
+      "id": 2
+    },
+    {
+      "location": "Bastrop, TX",
+      "month": "March",
+      "week": "4",
+      "dayOfWeek": "Saturday",
+      "years": {
+        "id": 27,
+        "cloudcover": 54,
+        "mintemp": 60,
+        "maxtemp": 77,
+        "rain": 0,
+        "wind": 8,
+        "humidity": 78,
+        "sun": 9,
+        "description": "Light rain shower",
+        "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0009_light_rain_showers.png"
+      },
+      "id": 3
+    },
+    {
+      "location": "Bastrop, TX",
+      "month": "March",
+      "week": "1",
+      "dayOfWeek": "Friday",
+      "years": {
+        "id": 5,
+        "cloudcover": 41,
+        "mintemp": 49,
+        "maxtemp": 67,
+        "rain": 0,
+        "wind": 7,
+        "humidity": 72,
+        "sun": 11,
+        "description": "Partly cloudy",
+        "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png"
+      },
+      "id": 4
+    },
+    {
+      "location": "Miami, FL",
+      "month": "March",
+      "week": "1",
+      "dayOfWeek": "Saturday",
+      "years": {
+        "id": 6,
+        "cloudcover": 52,
+        "mintemp": 67,
+        "maxtemp": 71,
+        "rain": 0,
+        "wind": 19,
+        "humidity": 66,
+        "sun": 9,
+        "description": "Partly cloudy",
+        "icon": "https://assets.weatherstack.com/images/wsymbols01_png_64/wsymbol_0002_sunny_intervals.png"
+      },
+      "id": 5
     }
   ]
 }
