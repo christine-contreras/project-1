@@ -1,4 +1,4 @@
-const apiKey = 'fba8c59e3a5f9d7d2ed8d4014b3ddc97';
+const apiKey = config.SECRET_API_KEY;
 const form = document.getElementById('form');
 const resultsContainer = document.getElementById('calendar-results');
 const topNav = document.getElementById('nav-links');

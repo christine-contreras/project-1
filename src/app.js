@@ -1,4 +1,4 @@
-const apiKey = 'fba8c59e3a5f9d7d2ed8d4014b3ddc97';
+const apiKey = config.SECRET_API_KEY;
 const form = document.getElementById('form');
 const resultsContainer = document.getElementById('calendar-results');
 const topNav = document.getElementById('nav-links');
@@ -11,7 +11,7 @@ const modal = document.getElementById('details-modal');
 const modalDatesContainer = document.createElement('div');
 modalDatesContainer.classList.add('modal-dates', 'text-center');
 const goBackLink = document.createElement('a');
-goBackLink.setAttribute('id', 'return-link');
+goBackLink.setAttribute('id', 'cd project-1return-link');
 goBackLink.classList.add('pure-menu-link');
 const htmlTag = document.querySelector('html');
 const btnSaveDate = document.createElement('button');
@@ -878,7 +878,6 @@ topNav.addEventListener('click', (event) => {
 
     //if home button is clicked show form and calendar info
     if(event.target === homeBtn){
-        console.log('home btn hit');
         heroContainer.style.display = "flex";
         resultsContainer.style.display = 'block';
         SavedDatesModal.classList.remove('open');
@@ -887,7 +886,6 @@ topNav.addEventListener('click', (event) => {
 
     //if saved dates is clicked create saved dates modal
     if(event.target === datesBtn){
-        console.log('date btn hit');
         if(SavedDatesModal.innerHTML === ''){
             createSavedDates();
 
